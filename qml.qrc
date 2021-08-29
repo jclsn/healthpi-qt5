@@ -3,6 +3,5 @@
         <file>main.qml</file>
         <file>images/right_triangle.svg</file>
         <file>images/Love_Heart.svg</file>
-        <file>ValueFrame.qml</file>
     </qresource>
 </RCC>

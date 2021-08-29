@@ -8,6 +8,7 @@
 #include "Updater.h"
 #include "DS1820.h"
 #include "gsrsensor.h"
+#include "pulsesensor.h"
 
 std::vector<Sensor> createSensorObjects();
 

@@ -54,7 +54,7 @@ Window {
         x: 329
         y: 322
         color: "#ffffff"
-        text: qsTr("0")
+        text: bpmUpdater.text
         font.pixelSize: 64
         font.family: "IBM Plex Mono"
     }

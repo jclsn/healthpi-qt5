@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("tempUpdater", &tempUpdater);
     engine.rootContext()->setContextProperty("gsrUpdater", &gsrUpdater);
+    engine.rootContext()->setContextProperty("bpmUpdater", &bpmUpdater);
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
 
@@ -59,18 +60,29 @@ void updateValues()
 
 #if RASPI
 
-    /* Declare DS1820 object */
+    initialiseEpoch();
+    /* Create DS1820 object */
 
     DS1820 ds1820{};
 
-    /* Declare GSRSensor object and the needed strings for conversion */
+    /* Create GSRSensor object and the needed strings for conversion */
 
     GSRSensor gsrsensor{};
     gsrsensor.setupGSR();
     char voltage_c[10];
-    std::string voltage;
+    char conductance_c[10];
+    char resistance_c[10];
+    std::string voltage, conductance, resistance;
+
+    char pulse_c[5];
+    std::string pulse;
+
+    /* Create Pulsesensor object */
+
+    std::thread pulseThread(plotBPMData);
 
     for(;;) {
+
 
         QString temp = QString::fromStdString(ds1820.getTemp());
 
@@ -80,8 +92,22 @@ void updateValues()
         voltage.replace(voltage.find(","), 1, ".");
         QString gsr = QString::fromStdString(voltage);
 
+        sprintf(conductance_c, "%f", (1.0 / gsrsensor.getHumanResistance()) * 1000);
+        conductance = std::string(conductance_c);
+        QString gsr2 = QString::fromStdString(conductance);
+
+        sprintf(resistance_c, "%d", gsrsensor.getHumanResistance());
+        resistance = std::string(resistance_c);
+        QString gsr3 = QString::fromStdString(resistance);
+
+
+        sprintf(pulse_c, "%d", getBPM());
+        pulse = std::string(pulse_c);
+        QString bpm = QString::fromStdString(pulse);
+
         tempUpdater.setText(temp);
-        gsrUpdater.setText(gsr);
+        gsrUpdater.setText(gsr3);
+        bpmUpdater.setText(bpm);
     }
 
 #endif

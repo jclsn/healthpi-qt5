@@ -10,7 +10,9 @@ SOURCES += \
         DS1820.cpp \
         Sensor.cpp \
         gsrsensor.cpp \
-        main.cpp
+        main.cpp \
+        pulsesensor.cpp \
+        wiringPi.c
 
 RESOURCES += qml.qrc
 
@@ -61,7 +63,9 @@ HEADERS += \
     Sensor.h \
     Updater.h \
     gsrsensor.h \
-    main.h
+    main.h \
+    pulsesensor.h \
+    wiringPi.h
 
 
 INSTALLS        = target
