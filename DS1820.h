@@ -16,17 +16,21 @@
  * =====================================================================================
  */  
 
+// #define DEBUG 1
+
 #include <iostream>
 #include <string>
 #include <algorithm>
-
 #include "Sensor.h"
+#include <sstream>
 
 extern "C"{
 #include <unistd.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <string.h>
+#include <dirent.h>
+#include <math.h>
 }
 
 #define errExit(msg) do { perror(msg); exit(EXIT_FAILURE); \
@@ -35,7 +39,10 @@ extern "C"{
 
 class DS1820 : Sensor
 {
+    std::string rawTemp;
 
 public:
-    std::string getTemp();
+    void readSensor();
+    std::string getTempString();
+    unsigned int getThermometerHeight();
 };

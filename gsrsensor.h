@@ -5,21 +5,16 @@
 #include <string>
 #include <algorithm>
 #include <Sensor.h>
-
+#include <deque>
 
 extern "C"{
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
 #include <sys/stat.h>
-#include <sys/types.h>
 #include <unistd.h>
-#include <stdarg.h>
 #include <signal.h>
-#include <time.h>
 #include <wiringPi.h>
-#include <errno.h>
 }
 
 #define errExit(msg) do { perror(msg); exit(EXIT_FAILURE); \
@@ -30,17 +25,25 @@ extern "C"{
 
 class GSRSensor : Sensor
 {
-    int threshold = 0;
-    int sensorValue;
+    int threshold;
+    float sensorValue;
+    float voltage;
+    float avg_voltage;
+    float resistance;
+    float conductance;
+    std::deque <float> a_sensorValues{};
 
 public:
     GSRSensor();
 
-    unsigned int getGSRRaw();
+    int readSensor();
+    void updateHumanResistance();
+    void updateHumanConductance();
     float getGSRVoltage();
-    unsigned int getHumanResistance();
-    void GSRThread();
-    void setupGSR();
+    float getGSRAvgVoltage();
+    std::string getGSRAvgVoltageString();
+    std::string getHumanResistance();
+    std::string getHumanConductance();
 };
 
 #endif // GSRSENSOR_H

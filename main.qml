@@ -1,5 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
+import QtQuick.Timeline 1.0
+import QtQuick.Controls 2.15
 
 Window {
     width: 1920
@@ -8,12 +10,15 @@ Window {
     color: "#000000"
     visibility: Window.FullScreen
 
+
+
+
     Text {
         id: bpm
         x: 82
         y: 322
         color: "#ffffff"
-        text: qsTr("BPM")
+        text: qsTr("Pulse")
         font.pixelSize: 64
         font.family: "IBM Plex Mono"
     }
@@ -23,7 +28,7 @@ Window {
         x: 82
         y: 677
         color: "#ffffff"
-        text: qsTr("GSR")
+        text: qsTr("EDA")
         font.pixelSize: 64
         font.family: "IBM Plex Mono"
     }
@@ -80,26 +85,140 @@ Window {
     }
 
 
+
     Text {
         id: spo2_val
         x: 329
         y: 487
         color: "#ffffff"
-        text: qsTr("0")
+        text: qsTr("N/A")
         font.pixelSize: 64
         font.family: "IBM Plex Mono"
     }
 
+
+
+
     Image {
         id: love_Heart
-        x: 139
-        y: 46
-        width: 159
-        height: 234
+        x: 704
+        y: 331
+        width: 513
+        height: 418
         source: "images/Love_Heart.svg"
+        scale: 1
+        fillMode: Image.PreserveAspectFit
+
+        Text {
+            id: measurementActiveText
+            x: 330
+            y: 387
+            width: 145
+            height: 31
+            visible: false
+            color: "#ff0000"
+            text: btncntrl.statusText
+            font.pixelSize: 28
+            font.family: "IBM Plex Mono"
+        }
+
+        Text {
+            id: clickMeText
+            x: 104
+            y: 163
+            color: "#ffffff"
+            visible: !btncntrl.clicked
+            text: qsTr("Messung starten!")
+            font.pixelSize: 34
+            font.bold: true
+            font.family: "IBM Plex Mono"
+        }
+    }
+
+
+
+    Button {
+        id: button
+        x: 734
+        y: 331
+        width: 458
+        height: 437
+        opacity: 0
+        visible: true
+        text: qsTr("Button")
+        onClicked: btncntrl.setClicked(!btncntrl.clicked)
+    }
+
+    Timeline {
+        id: thermometerTimeline
+        startFrame: timelinecntrl.startFrame
+        animations: [
+            TimelineAnimation {
+                id: timelineAnimation
+                running: timelinecntrl.running
+                loops: timelinecntrl.loops
+                duration: timelinecntrl.duration
+                to: 500
+                from: timelinecntrl.from
+            }
+        ]
+        endFrame: 500
+        enabled: timelinecntrl.enabled
+
+        KeyframeGroup {
+            target: love_Heart
+            property: "scale"
+            Keyframe {
+                value: 1.25
+                frame: timelinecntrl.frame1
+            }
+
+            Keyframe {
+                value: 1
+                frame: timelinecntrl.frame2
+            }
+        }
+    }
+
+    Image {
+        id: thermometer_content
+        x: 1327
+        y: 79
+        source: "images/thermometer_content.png"
+        scale: 0.4
         fillMode: Image.PreserveAspectFit
     }
+
+    Rectangle {
+        id: rectangle
+        x: 1413
+        y: 455
+        width: 79
+        height: thermometercntrl.height
+        color: "#000000"
+        border.color: "#000000"
+    }
+
+    Image {
+        id: white_thermometer
+        x: 1327
+        y: 79
+        source: "images/white_thermometer.png"
+        scale: 0.4
+        fillMode: Image.PreserveAspectFit
+    }
+
+    Image {
+        id: emoji
+        x: 1325
+        y: 106
+        source: emojicntrl.emoji
+        // source: "images/emoji5a.png"
+        fillMode: Image.PreserveAspectFit
+    }
+
 }
+
 
 /*##^##
 Designer {

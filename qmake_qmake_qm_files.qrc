@@ -1,0 +1,5 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="i18n">
+<file alias="HealthPi_de_DE.qm">/home/jan/NextCloud/Projekte/Qt/HealthPi/.qm/HealthPi_de_DE.qm</file>
+</qresource>
+</RCC>

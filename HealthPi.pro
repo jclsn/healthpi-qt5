@@ -1,6 +1,8 @@
-QT += quick
+QT += quick multimedia multimediawidgets
 
 CONFIG += c++17
+CONFIG += debug
+env_keep += "XDG_RUNTIME_DIR"
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -19,6 +21,7 @@ RESOURCES += qml.qrc
 TRANSLATIONS += \
     HealthPi_de_DE.ts
 CONFIG += lrelease
+CONFIG += lvlc
 CONFIG += embed_translations
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
@@ -59,8 +62,13 @@ DISTFILES += \
     images/heart2.png
 
 HEADERS += \
+    ButtonControl.h \
     DS1820.h \
+    EmojiControl.h \
+    Heartbeat.h \
     Sensor.h \
+    ThermometerControl.h \
+    TimelineControl.h \
     Updater.h \
     gsrsensor.h \
     main.h \
@@ -75,3 +83,4 @@ target.path     = /home/pi/CC_folder
 arm-linux-gnueabihf-g++{
 DEFINES+= RASPI
 }
+

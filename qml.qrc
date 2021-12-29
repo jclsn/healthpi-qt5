@@ -1,7 +1,16 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>images/right_triangle.svg</file>
         <file>images/Love_Heart.svg</file>
+        <file>images/Real_Heart.png</file>
+        <file>images/white_thermometer.png</file>
+        <file>images/thermometer_content.png</file>
+        <file>images/emoji5b.png</file>
+        <file>images/emoji5a.png</file>
+        <file>images/emoji4.png</file>
+        <file>images/emoji3.png</file>
+        <file>images/emoji2.png</file>
+        <file>images/emoji1b.png</file>
+        <file>images/emoji1a.png</file>
     </qresource>
 </RCC>

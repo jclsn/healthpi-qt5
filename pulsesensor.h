@@ -1,12 +1,11 @@
 #ifndef PULSESENSOR_H
 #define PULSESENSOR_H
 
-
+// #define DEBUG 1
 
 #include <iostream>
 #include <string>
 #include <algorithm>
-
 
 extern "C"{
 #include <stdio.h>
@@ -42,5 +41,6 @@ extern "C"{
 
 int getBPM();
 int plotBPMData();
+extern volatile bool pulse;
 
 #endif // PULSESENSOR_H
