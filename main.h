@@ -44,6 +44,8 @@ void poundHeart();
 void thermometerThread();
 unsigned int calcThermometerHeight();
 
+bool sleeping = true;
+
 #endif // MAIN_H
 
 

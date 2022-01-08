@@ -88,7 +88,7 @@ void delayMicroseconds (unsigned int howLong)
 
 unsigned int millis (void)
 {
-  uint64_t now ;
+  uint64_t now;
 
   struct  timespec ts ;
 

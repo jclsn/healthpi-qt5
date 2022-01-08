@@ -13,7 +13,7 @@ public:
     int init();
 
 protected:
-    int value;
+    int value{};
 };
 
 #endif // SENSOR_H

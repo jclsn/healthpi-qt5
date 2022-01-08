@@ -4,12 +4,12 @@ void DS1820::readSensor()
 {
         std::string sensor_id{};
         bool sensorFound = false;
-        int fd;
+        int fd{};
 
         /* Try to find the sensor in the one-wire device tree */
 
-        DIR *d;
-        struct dirent *dir;
+        DIR *d{};
+        struct dirent *dir{};
 
         if( (d = opendir("/sys/bus/w1/devices/")) == NULL) {
             perror("opendir");
@@ -19,7 +19,7 @@ void DS1820::readSensor()
 #ifdef DEBUG
         std::cout << "\nScanning for temperature sensors..." << std::endl;
 #endif
-        while((dir = readdir(d)) != NULL) {
+        while( (dir = readdir(d)) != NULL) {
 #ifdef DEBUG
             std::cout << dir->d_name << std::endl;
 #endif
@@ -51,8 +51,8 @@ void DS1820::readSensor()
 
         /* Seek to the end of the file to determine its length */ 
 
-        off_t len;
-        ssize_t ret;
+        off_t len{};
+        ssize_t ret{};
 
         if( (len = lseek(fd, 0, SEEK_END)) == (off_t) -1)
             errExit("lseek");

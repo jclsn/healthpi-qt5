@@ -7,7 +7,7 @@ class Updater: public QObject{
 
     Q_OBJECT
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
-    QString m_text;
+    QString m_text{};
 
 public:
     using QObject::QObject;

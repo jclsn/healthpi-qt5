@@ -6,6 +6,7 @@
 #include <QQmlProperties>
 
 #include "main.h"
+#include "debug.h"
 
 unsigned int getButton();
 void checkButton();
@@ -19,9 +20,10 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
+
     QGuiApplication app(argc, argv);
 
-    QTranslator translator;
+    QTranslator translator{};
     const QStringList uiLanguages = QLocale::system().uiLanguages();
     for (const QString &locale : uiLanguages) {
         const QString baseName = "HealthPi_" + QLocale(locale).name();
@@ -31,6 +33,10 @@ int main(int argc, char *argv[])
         }
     }
 
+    /* Hide the cursor */
+    QCursor cursor(Qt::BlankCursor);
+    app.setOverrideCursor(cursor);
+    app.changeOverrideCursor(cursor);
 
     QQmlApplicationEngine engine;
 
@@ -67,7 +73,7 @@ int main(int argc, char *argv[])
     std::thread updaterThread(updateValues);
 
     player = new QMediaPlayer;
-    player->setMedia(QUrl::fromLocalFile("/home/pi/CC_folder/sounds/single-heartbeat4.wav"));
+    player->setMedia(QUrl::fromLocalFile("/home/pi/CC_folder/sounds/single-heartbeat2.wav"));
     player->setVolume(100);
 
     return app.exec();
@@ -85,8 +91,8 @@ void updateValues()
     DS1820 ds1820{};
     GSRSensor gsrsensor{};
 
-    char pulse_c[20];
-    std::string pulse;
+    char pulse_c[20]{};
+    std::string pulse{};
 
     /* Create Pulsesensor object */
 
@@ -94,14 +100,24 @@ void updateValues()
 
     // std::thread thermoThread(thermometerThread);
 
-    QString temp,
-            gsr,
-            gsr2,
-            gsr3,
-            bpm;
+    QString temp{},
+            gsr{},
+            gsr2{},
+            gsr3{},
+            bpm{};
 
-    float voltage_float;
+            float voltage_float{};
     std::string emoji = "images/emoji5a.png";
+
+    timelinecntrl.setEnabled(false);
+    btncntrl.setClicked(false);
+
+#ifdef DEBUG_SOUND
+    while(1) {
+        sleep(1);
+        player->play();
+    }
+#endif
 
     while(1) {
 
@@ -110,9 +126,19 @@ void updateValues()
          *  the thread cannot must stop while measuring
          */
 
+
         if(!timelinecntrl.enabled()) {
+            sleeping = true;
+            bpmUpdater.setText("0");
+            gsrUpdater.setText("0.00 V");
+            tempUpdater.setText("0 °C");
+            thermometercntrl.setHeight(425);         // Calculate the height of the thermometer and set it
+            emojicntrl.setEmoji(QString::fromStdString("images/emoji5a.png"));
             std::thread buttonThread(checkButton);
             buttonThread.join();
+
+            sleep(5);
+            sleeping = false;
         }
 
         /* TEMPERATURE */
@@ -166,34 +192,35 @@ void updateValues()
 
 void poundHeart()
 {
-    if(!btncntrl.clicked())
-        return;
 
-    int bpm = getBPM();
+    float bpm = (float) getBPM();
     if(bpm < 30 || bpm > 200 )
         return;
-    float rate = (float) bpm / 60.0;
-    player->setPlaybackRate(rate);
 
-    float animationLength = 1.2 * 500 / rate;
+    // if(!btncntrl.clicked() || !timelinecntrl.enabled() || sleeping == true) {
+        // return;
+    // }
+
+    qreal rate = (qreal)  (bpm / 60.0) * 1.2;
+    player->setPlaybackRate(rate);
+    std::cout << "Pound!" << std::endl;
+    player->play();
+
+    float animationLength = 1.2 * 500.0 / rate;
     timelinecntrl.setRunning(false);
     timelinecntrl.setFrom(0);
     timelinecntrl.setLoops(1);
     timelinecntrl.setDuration(animationLength);
     timelinecntrl.setStartFrame(0);
-    timelinecntrl.setFrame1(1.2 * 50/rate);
-    timelinecntrl.setFrame2(animationLength);
+    timelinecntrl.setFrame1(1.2 * 50.0/rate);
+    timelinecntrl.setFrame2(animationLength-1);
     timelinecntrl.setRunning(true);
-    player->play();
+
 }
 
 void disableHeart() {
     timelinecntrl.setEnabled(false);
-
     btncntrl.setClicked(false);
-    bpmUpdater.setText("0");
-    gsrUpdater.setText("0.00 V");
-    tempUpdater.setText("0 °C");
 }
 
 
@@ -206,12 +233,12 @@ void enableHeart()
 
 unsigned int getButton()
 {
-    int fd;
-    char path[60];
+    int fd{};
+    char path[60]{};
     int len = 20;
-    ssize_t ret;
+    ssize_t ret{};
 
-    std::string voltage;
+    std::string voltage{};
 
     char *p2buf = (char *) calloc(len, sizeof(char));
     char *buf = p2buf;
@@ -253,7 +280,7 @@ unsigned int getButton()
         free(p2buf);
     }
 
-    std::cout << voltage;
+    // std::cout << voltage;
 
     return stoi(voltage);
 

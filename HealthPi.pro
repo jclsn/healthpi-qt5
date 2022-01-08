@@ -70,6 +70,7 @@ HEADERS += \
     ThermometerControl.h \
     TimelineControl.h \
     Updater.h \
+    debug.h \
     gsrsensor.h \
     main.h \
     pulsesensor.h \

@@ -1,8 +1,6 @@
 #ifndef PULSESENSOR_H
 #define PULSESENSOR_H
 
-// #define DEBUG 1
-
 #include <iostream>
 #include <string>
 #include <algorithm>

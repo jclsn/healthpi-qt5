@@ -17,14 +17,14 @@ class TimelineControl: public QObject{
     Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
     Q_PROPERTY(unsigned int from READ from WRITE setFrom NOTIFY fromChanged)
 
-    unsigned int m_running,
-             m_duration,
-             m_startFrame,
-             m_frame1,
-             m_frame2,
-             m_loops,
-             m_from,
-             m_enabled;
+    unsigned int m_running{},
+                 m_duration{},
+                 m_startFrame{},
+                 m_frame1{},
+                 m_frame2{},
+                 m_loops{},
+                 m_from{},
+                 m_enabled{};
 
 public:
     using QObject::QObject;

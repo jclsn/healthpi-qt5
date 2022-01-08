@@ -1,5 +1,8 @@
+#include "debug.h"
 #include "pulsesensor.h"
 #include "Heartbeat.h"
+
+
 
 
 #define errExit(msg) do { perror(msg); exit(EXIT_FAILURE); \
@@ -73,7 +76,7 @@ inline int getPulseSensorRaw()
         }
     }
 
-    int len, ret;
+    int len{}, ret{};
 
     if( (len = lseek(fd, 0, SEEK_END)) == (off_t) -1)
         errExit("lseek");
@@ -200,7 +203,9 @@ void getPulse(){     //int sig_num){
             ibi = sampleCounter - lastBeatTime;     	// meaSure time between beats in ms
             lastBeatTime = sampleCounter;           	// keeP track of time for next pulse
 
-            std::cout << "Pound!" << std::endl;
+            if(!sleeping)
+                poundHeart();
+
             if (secondBeat) {                       	// if this is the second beat, if secondBeat == TRUE
                 enableHeart();
                 secondBeat = false;                     // Clear secondBeat flag
@@ -233,7 +238,6 @@ void getPulse(){     //int sig_num){
                 bpm = 0;
             qs = 1;                              		// Set Quantified Self flag (we detected a beat)
             //fadeLevel = MAX_FADE_LEVEL;             	// If we're fading, re-light that LED.
-            poundHeart();
         }
     }
 
@@ -262,7 +266,7 @@ void getPulse(){     //int sig_num){
         std::cout << "Pulsesensor doesn't receive anything!" << std::endl;
     }
 
-#ifdef DEBUG
+#ifdef DEBUG_PULSESENSOR
     std::cout << pulse << "\t" << sampleCounter << "\t" << pulse_signal << "\t " << bpm << "\t " << ibi << "\t " << jitter << std::endl;
 #endif
 }

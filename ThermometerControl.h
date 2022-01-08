@@ -10,7 +10,7 @@ class ThermometerControl: public QObject{
     Q_OBJECT
     Q_PROPERTY(unsigned int height READ height WRITE setHeight NOTIFY heightChanged)
 
-    unsigned int m_height;
+    unsigned int m_height{};
 
 public:
     using QObject::QObject;

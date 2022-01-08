@@ -6,7 +6,7 @@ GSRSensor::GSRSensor()
 
 int GSRSensor::readSensor()
 {
-    int fd;
+    int fd{};
     char path[60];
     int len = 20;
     ssize_t ret;
@@ -106,7 +106,7 @@ void GSRSensor::updateHumanResistance()
 
 std::string GSRSensor::getHumanResistance()
 {
-    char resistance_c[20];
+    char resistance_c[20]{};
     sprintf(resistance_c, "%f Ω", resistance);
     return std::string(resistance_c);
 }
@@ -118,7 +118,7 @@ void GSRSensor::updateHumanConductance()
 
 std::string GSRSensor::getHumanConductance()
 {
-    char conductance_c[20];
+    char conductance_c[20]{};
     sprintf(conductance_c, "%f", (1.0 / resistance) * 1000);
     return std::string(conductance_c);
 }

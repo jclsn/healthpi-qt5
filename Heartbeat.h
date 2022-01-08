@@ -13,7 +13,7 @@ class Heartbeat: public QObject{
 
     Q_OBJECT
     Q_PROPERTY(double scale READ scale WRITE setScale NOTIFY scaleChanged)
-    double m_scale;
+    double m_scale{};
 
 public:
     using QObject::QObject;

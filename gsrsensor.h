@@ -25,12 +25,12 @@ extern "C"{
 
 class GSRSensor : Sensor
 {
-    int threshold;
-    float sensorValue;
-    float voltage;
-    float avg_voltage;
-    float resistance;
-    float conductance;
+    int threshold{};
+    float sensorValue{};
+    float voltage{};
+    float avg_voltage{};
+    float resistance{};
+    float conductance{};
     std::deque <float> a_sensorValues{};
 
 public:

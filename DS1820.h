@@ -39,7 +39,7 @@ extern "C"{
 
 class DS1820 : Sensor
 {
-    std::string rawTemp;
+    std::string rawTemp{};
 
 public:
     void readSensor();

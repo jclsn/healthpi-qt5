@@ -8,10 +8,7 @@ Window {
     height: 1080
     visible: true
     color: "#000000"
-    visibility: Window.FullScreen
-
-
-
+    // visibility: Window.FullScreen
 
     Text {
         id: bpm
@@ -222,6 +219,7 @@ Window {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.66}
+    D{i:0;formeditorZoom:0.9}D{i:1}D{i:2}D{i:3}D{i:4}D{i:5}D{i:6}D{i:7}D{i:8}D{i:10}D{i:11}
+D{i:9}D{i:12}D{i:13}D{i:18}D{i:19}D{i:20}D{i:21}
 }
 ##^##*/
