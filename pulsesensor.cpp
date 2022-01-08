@@ -207,7 +207,8 @@ void getPulse(){     //int sig_num){
                 poundHeart();
 
             if (secondBeat) {                       	// if this is the second beat, if secondBeat == TRUE
-                enableHeart();
+                if(!sleeping)
+                    enableHeart();
                 secondBeat = false;                     // Clear secondBeat flag
                 for (int i = 0; i <= 9; i++) {        	// Seed the running total to get a realisitic BPM at startup
                     rate[i] = ibi;

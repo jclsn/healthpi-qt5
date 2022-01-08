@@ -104,6 +104,7 @@ Window {
         height: 418
         source: "images/Love_Heart.svg"
         scale: 1
+        opacity: heartfadecntrl.opacity
         fillMode: Image.PreserveAspectFit
 
         Text {
@@ -173,6 +174,41 @@ Window {
             Keyframe {
                 value: 1
                 frame: timelinecntrl.frame2
+            }
+        }
+    }
+    Timeline {
+        id: heartfadeTimeline
+        startFrame: heartfadecntrl.startFrame
+        animations: [
+            TimelineAnimation {
+                id: heartfadeAnimation
+                running: heartfadecntrl.running
+                loops: heartfadecntrl.loops
+                duration: heartfadecntrl.duration
+                to: 1000
+                from: heartfadecntrl.from
+            }
+        ]
+        endFrame: 1000
+        enabled: heartfadecntrl.enabled
+
+        KeyframeGroup {
+            target: love_Heart
+            property: "opacity"
+            Keyframe {
+                value: 1
+                frame: 0
+            }
+
+            Keyframe {
+                value: 0.2
+                frame: 500
+            }
+
+            Keyframe {
+                value: 1
+                frame: 1000
             }
         }
     }

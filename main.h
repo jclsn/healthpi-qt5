@@ -30,6 +30,7 @@ Updater tempUpdater,
 
 Heartbeat heartbeat;
 TimelineControl timelinecntrl;
+TimelineControl heartfadecntrl;
 ThermometerControl thermometercntrl;
 EmojiControl emojicntrl;
 ButtonControl btncntrl;
@@ -41,6 +42,7 @@ QMediaPlayer *player;
 
 void updateValues();
 void poundHeart();
+void fadeHeart(unsigned int times);
 void thermometerThread();
 unsigned int calcThermometerHeight();
 

@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("bpmUpdater", &bpmUpdater);
     engine.rootContext()->setContextProperty("heartbeat", &heartbeat);
     engine.rootContext()->setContextProperty("timelinecntrl", &timelinecntrl);
+    engine.rootContext()->setContextProperty("heartfadecntrl", &heartfadecntrl);
     engine.rootContext()->setContextProperty("thermometercntrl", &thermometercntrl);
     engine.rootContext()->setContextProperty("emojicntrl", &emojicntrl);
     engine.rootContext()->setContextProperty("btncntrl", &btncntrl);
@@ -119,6 +120,14 @@ void updateValues()
     }
 #endif
 
+#ifdef DEBUG_HEARTFADE
+    heartfadecntrl.setEnabled(true);
+    while(1) {
+        sleep(1);
+        fadeHeart(1);
+    }
+#endif
+
     while(1) {
 
         /*
@@ -137,6 +146,8 @@ void updateValues()
             std::thread buttonThread(checkButton);
             buttonThread.join();
 
+            heartfadecntrl.setEnabled(true);
+            fadeHeart(5);
             sleep(5);
             sleeping = false;
         }
@@ -197,9 +208,6 @@ void poundHeart()
     if(bpm < 30 || bpm > 200 )
         return;
 
-    // if(!btncntrl.clicked() || !timelinecntrl.enabled() || sleeping == true) {
-        // return;
-    // }
 
     qreal rate = (qreal)  (bpm / 60.0) * 1.2;
     player->setPlaybackRate(rate);
@@ -208,6 +216,7 @@ void poundHeart()
 
     float animationLength = 1.2 * 500.0 / rate;
     timelinecntrl.setRunning(false);
+    timelinecntrl.setEnabled(false);
     timelinecntrl.setFrom(0);
     timelinecntrl.setLoops(1);
     timelinecntrl.setDuration(animationLength);
@@ -215,6 +224,26 @@ void poundHeart()
     timelinecntrl.setFrame1(1.2 * 50.0/rate);
     timelinecntrl.setFrame2(animationLength-1);
     timelinecntrl.setRunning(true);
+    timelinecntrl.setEnabled(true);
+
+}
+
+void fadeHeart(unsigned int times)
+{
+    // heartfadecntrl.setRunning(false);
+    // heartfadecntrl.setLoops(times);
+    // heartfadecntrl.setStartFrame(0);
+    // heartfadecntrl.setRunning(true);;
+    // heartfadecntrl.setEnabled(true);;
+
+    heartfadecntrl.setRunning(false);
+    heartfadecntrl.setFrom(0);
+    heartfadecntrl.setLoops(times);
+    heartfadecntrl.setDuration(1000);
+    heartfadecntrl.setStartFrame(0);
+    // heartfadecntrl.setFrame1(1.2 * 50.0/rate);
+    // heartfadecntrl.setFrame2(animationLength-1);
+    heartfadecntrl.setRunning(true);
 
 }
 
@@ -226,6 +255,7 @@ void disableHeart() {
 
 void enableHeart()
 {
+    heartfadecntrl.setEnabled(false);
     timelinecntrl.setEnabled(true);
 }
 
