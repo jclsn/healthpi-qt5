@@ -1,8 +1,6 @@
 
 #include <QQmlApplicationEngine>
 #include <QtQuick>
-#include <QLocale>
-#include <QTranslator>
 #include <QQmlProperties>
 
 #include "main.h"
@@ -16,29 +14,19 @@ void checkButton();
 int main(int argc, char *argv[])
 {
 
+
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
-
     QGuiApplication app(argc, argv);
 
-    QTranslator translator{};
-    const QStringList uiLanguages = QLocale::system().uiLanguages();
-    for (const QString &locale : uiLanguages) {
-        const QString baseName = "HealthPi_" + QLocale(locale).name();
-        if (translator.load(":/i18n/" + baseName)) {
-            app.installTranslator(&translator);
-            break;
-        }
-    }
-
-    /* Hide the cursor */
+       /* Hide the cursor */
     QCursor cursor(Qt::BlankCursor);
     app.setOverrideCursor(cursor);
     app.changeOverrideCursor(cursor);
 
-    QQmlApplicationEngine engine;
+    QQmlApplicationEngine engine{};
 
     engine.rootContext()->setContextProperty("tempUpdater", &tempUpdater);
     engine.rootContext()->setContextProperty("gsrUpdater", &gsrUpdater);
@@ -59,21 +47,15 @@ int main(int argc, char *argv[])
                       const QUrl &objUrl) {
                          if (!obj && url == objUrl)
                              QCoreApplication::exit(-1);
-
                       },
                       Qt::QueuedConnection);
 
 
     engine.load(url);
 
-    // timeline = new QTimeLine(1000, engine.rootContext());
-    // timeline->setFrameRange(0, 100);
-    // QObject::connect(timeline, &QTimeLine::frameChanged, &heartbeat, &Heartbeat::setScale);
-    //     timeline->start();
-
     std::thread updaterThread(updateValues);
 
-    player = new QMediaPlayer;
+    player = new QMediaPlayer{};
     player->setMedia(QUrl::fromLocalFile("/home/pi/CC_folder/sounds/single-heartbeat2.wav"));
     player->setVolume(100);
 

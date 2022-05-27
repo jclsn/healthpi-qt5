@@ -79,7 +79,8 @@ HEADERS += \
 
 INSTALLS        = target
 target.files    = HealthPi
-target.path     = /home/pi/CC_folder
+#target.path     = /home/pi/CC_folder
+target.path     = /home/root
 
 arm-linux-gnueabihf-g++{
 DEFINES+= RASPI
