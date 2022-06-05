@@ -18,11 +18,7 @@ SOURCES += \
 
 RESOURCES += qml.qrc
 
-TRANSLATIONS += \
-    HealthPi_de_DE.ts
-CONFIG += lrelease
 CONFIG += lvlc
-CONFIG += embed_translations
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
