@@ -32,30 +32,30 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    fonts/AreaKilometer50.otf \
-    fonts/AreaKilometer50.ttf \
-    fonts/IBMPlexMono-Bold.ttf \
-    fonts/IBMPlexMono-BoldItalic.ttf \
-    fonts/IBMPlexMono-ExtraLight.ttf \
-    fonts/IBMPlexMono-ExtraLightItalic.ttf \
-    fonts/IBMPlexMono-Italic.ttf \
-    fonts/IBMPlexMono-Light.ttf \
-    fonts/IBMPlexMono-LightItalic.ttf \
-    fonts/IBMPlexMono-Medium.ttf \
-    fonts/IBMPlexMono-MediumItalic.ttf \
-    fonts/IBMPlexMono-Regular.ttf \
-    fonts/IBMPlexMono-SemiBold.ttf \
-    fonts/IBMPlexMono-SemiBoldItalic.ttf \
-    fonts/IBMPlexMono-Thin.ttf \
-    fonts/IBMPlexMono-ThinItalic.ttf \
-    fonts/Moonglade.ttf \
-    fonts/PastiOblique.otf \
-    fonts/PastiRegular.otf \
-    fonts/Rocks.ttf \
-    images/Love_Heart.svg \
-    images/dot.png \
-    images/heart.png \
-    images/heart2.png
+    /home/root/fonts/AreaKilometer50.otf \
+    /home/root/fonts/AreaKilometer50.ttf \
+    /home/root/fonts/IBMPlexMono-Bold.ttf \
+    /home/root/fonts/IBMPlexMono-BoldItalic.ttf \
+    /home/root/fonts/IBMPlexMono-ExtraLight.ttf \
+    /home/root/fonts/IBMPlexMono-ExtraLightItalic.ttf \
+    /home/root/fonts/IBMPlexMono-Italic.ttf \
+    /home/root/fonts/IBMPlexMono-Light.ttf \
+    /home/root/fonts/IBMPlexMono-LightItalic.ttf \
+    /home/root/fonts/IBMPlexMono-Medium.ttf \
+    /home/root/fonts/IBMPlexMono-MediumItalic.ttf \
+    /home/root/fonts/IBMPlexMono-Regular.ttf \
+    /home/root/fonts/IBMPlexMono-SemiBold.ttf \
+    /home/root/fonts/IBMPlexMono-SemiBoldItalic.ttf \
+    /home/root/fonts/IBMPlexMono-Thin.ttf \
+    /home/root/fonts/IBMPlexMono-ThinItalic.ttf \
+    /home/root/fonts/Moonglade.ttf \
+    /home/root/fonts/PastiOblique.otf \
+    /home/root/fonts/PastiRegular.otf \
+    /home/root/fonts/Rocks.ttf \
+    /home/root/images/Love_Heart.svg \
+    /home/root/images/dot.png \
+    /home/root/images/heart.png \
+    /home/root/images/heart2.png
 
 HEADERS += \
     ButtonControl.h \
