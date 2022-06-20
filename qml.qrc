@@ -20,5 +20,22 @@
         <file>sounds/single-heartbeat.wav</file>
         <file>images/vertical_bar_rainbow.png</file>
         <file>images/vertical_bar_frame.png</file>
+        <file>images/green_circle.png</file>
+        <file>fonts/IBMPlexMono-ThinItalic.ttf</file>
+        <file>fonts/IBMPlexMono-Thin.ttf</file>
+        <file>fonts/IBMPlexMono-SemiBoldItalic.ttf</file>
+        <file>fonts/IBMPlexMono-SemiBold.ttf</file>
+        <file>fonts/IBMPlexMono-Regular.ttf</file>
+        <file>fonts/IBMPlexMono-MediumItalic.ttf</file>
+        <file>fonts/IBMPlexMono-Medium.ttf</file>
+        <file>fonts/IBMPlexMono-LightItalic.ttf</file>
+        <file>fonts/IBMPlexMono-Light.ttf</file>
+        <file>fonts/IBMPlexMono-Italic.ttf</file>
+        <file>fonts/IBMPlexMono-ExtraLightItalic.ttf</file>
+        <file>fonts/IBMPlexMono-ExtraLight.ttf</file>
+        <file>fonts/IBMPlexMono-BoldItalic.ttf</file>
+        <file>fonts/IBMPlexMono-Bold.ttf</file>
+        <file>fonts/AreaKilometer50.ttf</file>
+        <file>fonts/AreaKilometer50.otf</file>
     </qresource>
 </RCC>

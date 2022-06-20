@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("heartbeat", &heartbeat);
     engine.rootContext()->setContextProperty("timelinecntrl", &timelinecntrl);
     engine.rootContext()->setContextProperty("heartfadecntrl", &heartfadecntrl);
+    engine.rootContext()->setContextProperty("controllight_control", &controllight_control);
     engine.rootContext()->setContextProperty("thermometercntrl", &thermometercntrl);
     engine.rootContext()->setContextProperty("moodcontrol", &moodcontrol);
     engine.rootContext()->setContextProperty("emojicntrl", &emojicntrl);
@@ -126,7 +127,7 @@ void updateValues()
             bpmUpdater.setText("0");
             gsrUpdater.setText("0.00 V");
             tempUpdater.setText("0 °C");
-            thermometercntrl.setHeight(425);
+            thermometercntrl.setHeight(650);
             moodcontrol.setHeight(700);
             emojicntrl.setEmoji(QString::fromStdString("images/emoji5a.png"));
             std::thread buttonThread(checkButton);
@@ -156,7 +157,7 @@ void updateValues()
 
         gsrUpdater.setText(gsr);
 
-        int bar_height =   (757 * voltage_float / 5);
+        int bar_height =   (700 * voltage_float / 5);
         std::cout << bar_height << "\n";
         moodcontrol.setHeight(bar_height);
 
@@ -303,8 +304,13 @@ unsigned int getButton()
 
 void checkButton() {
 
-    while(getButton() < 100)
-        usleep(10000);
+
+
+    while(getButton() < 100) {
+        controllight_control.setEnabled(sensor_is_reading);
+        // std::cout << "sensor_is_reading = " << sensor_is_reading << std::endl;
+        usleep(1000);
+    }
 
     btncntrl.setClicked(true);
 }

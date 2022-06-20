@@ -31,6 +31,7 @@ Updater tempUpdater,
 Heartbeat heartbeat;
 TimelineControl timelinecntrl;
 TimelineControl heartfadecntrl;
+TimelineControl controllight_control;
 VerticalBarControl thermometercntrl;
 VerticalBarControl moodcontrol;
 EmojiControl emojicntrl;
@@ -48,6 +49,7 @@ void thermometerThread();
 unsigned int calcThermometerHeight();
 
 bool sleeping = true;
+
 
 #endif // MAIN_H
 

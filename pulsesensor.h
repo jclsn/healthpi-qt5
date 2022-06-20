@@ -36,9 +36,9 @@ extern "C"{
 #define JITTER_SIGNAL_IDLE 0
 #define DATA_POINTS 100
 
-
 int getBPM();
 int plotBPMData();
 extern volatile bool pulse;
+extern volatile bool sensor_is_reading;
 
 #endif // PULSESENSOR_H

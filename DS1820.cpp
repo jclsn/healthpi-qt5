@@ -153,13 +153,15 @@ unsigned int DS1820::getThermometerHeight() {
         float temp_float;
 
         try {
-            temp_float= std::stof(tempstring.insert(2, ","));
+            temp_float= std::stof(tempstring.insert(2, "."));
 
             if(temp_float < 29.0)
                 temp_float = 29.0;
 
-            unsigned int height = ((unsigned int) fabs(392 - ((temp_float - 30) * 35.4)) );
-            // std::cout << "height = " << height << ", temp = " << temp_float << ", temp_str = " << tempstring <<  std::endl;
+            // temp_float = 29.5;
+
+            unsigned int height = ((unsigned int) fabs(650 - ((temp_float - 29.0) * 54.16)) );
+             std::cout << "height = " << height << ", temp = " << temp_float << ", temp_str = " << tempstring <<  std::endl;
 
             return height;
 

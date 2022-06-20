@@ -2,9 +2,6 @@
 #include "pulsesensor.h"
 #include "Heartbeat.h"
 
-
-
-
 #define errExit(msg) do { perror(msg); exit(EXIT_FAILURE); \
      } while (0)
 
@@ -24,6 +21,7 @@ unsigned int timeOutStart, dataRequestStart, m;
 
 volatile bool firstBeat = true;     // set these to avoid noise
 volatile bool secondBeat = false;    // when we get the heartbeat back
+volatile int beat_counter = 0;
 volatile unsigned int sampleCounter;
 volatile int pulse_signal;
 volatile int threshSetting,lastBeatTime,fadeLevel;
@@ -36,6 +34,7 @@ volatile int ibi = 600;         // 600ms per beat = 100 Beats Per Minute (BPM) (
 volatile bool pulse = false;         // set to 1 while Signal > Threshold
 volatile int amp = 100;         // beat amplitude 1/10 of input range.
 volatile int bpm = 0;
+volatile bool sensor_is_reading = false;         // set to 1 while Signal > Threshold
 
 
 /* FILE STUFF */
@@ -147,6 +146,7 @@ void initPulseSensorVariables(void){
     bpm = 0;
     ibi = 420;                  // 420 per beat = 70 Beats Per Minute (BPM)
     pulse = false;
+    sensor_is_reading = false;
     sampleCounter = 0;
     lastBeatTime = 0;
     peak = 512;                    // Peak at 1/2 the input range of 0..1023
@@ -203,6 +203,10 @@ void getPulse(){     //int sig_num){
             ibi = sampleCounter - lastBeatTime;     	// meaSure time between beats in ms
             lastBeatTime = sampleCounter;           	// keeP track of time for next pulse
 
+            beat_counter++;
+            if(beat_counter > 3)
+                sensor_is_reading = true;
+
             if(!sleeping)
                 poundHeart();
 
@@ -251,6 +255,8 @@ void getPulse(){     //int sig_num){
     }
 
     if (N > 2500) {                          			// If 2.5 seconds go by without a beat
+        beat_counter = 0;
+        sensor_is_reading = false;
         disableHeart();
         thresh = threshSetting;                			// Set thresh default
         peak = 512;                               		// Set P default
