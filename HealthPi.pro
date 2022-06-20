@@ -72,6 +72,7 @@ HEADERS += \
     Updater.h \
     VerticalBarControl.h \
     debug.h \
+    global.h \
     gsrsensor.h \
     main.h \
     pulsesensor.h \

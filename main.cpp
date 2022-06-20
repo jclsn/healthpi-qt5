@@ -80,7 +80,7 @@ void updateValues()
 
     /* Create Pulsesensor object */
 
-    std::thread pulseThread(plotBPMData);
+    std::thread pulseThread(read_bpm_thread);
 
     // std::thread thermoThread(thermometerThread);
 
@@ -181,7 +181,7 @@ void updateValues()
 
         // /* BPM */
 
-        sprintf(pulse_c, "%d", getBPM());
+        sprintf(pulse_c, "%d", get_bpm());
         pulse = std::string(pulse_c);
         bpm = QString::fromStdString(pulse);
 
@@ -191,13 +191,13 @@ void updateValues()
 
 void poundHeart()
 {
-    float bpm = (float) getBPM();
+    float bpm = (float) get_bpm();
     if(bpm < 30 || bpm > 200 )
         return;
 
     qreal rate = (qreal)  (bpm / 60.0) * 1.2;
     player->setPlaybackRate(rate);
-    std::cout << "Pound!" << std::endl;
+    // std::cout << "Pound!" << std::endl;
     player->play();
 
     float animationLength = 1.2 * 500.0 / rate;

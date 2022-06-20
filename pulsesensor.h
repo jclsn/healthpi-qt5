@@ -1,9 +1,10 @@
-#ifndef PULSESENSOR_H
-#define PULSESENSOR_H
+#pragma once
 
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <algorithm>
+#include <filesystem>
 
 extern "C"{
 #include <stdio.h>
@@ -36,9 +37,4 @@ extern "C"{
 #define JITTER_SIGNAL_IDLE 0
 #define DATA_POINTS 100
 
-int getBPM();
-int plotBPMData();
-extern volatile bool pulse;
-extern volatile bool sensor_is_reading;
 
-#endif // PULSESENSOR_H

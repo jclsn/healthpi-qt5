@@ -11,12 +11,12 @@
 #include "Updater.h"
 #include "DS1820.h"
 #include "gsrsensor.h"
-#include "pulsesensor.h"
 #include "Heartbeat.h"
 #include "TimelineControl.h"
 #include "VerticalBarControl.h"
 #include "EmojiControl.h"
 #include "ButtonControl.h"
+#include "global.h"
 
 #include <QtMultimedia/QtMultimedia>
 
