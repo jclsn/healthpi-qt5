@@ -12,5 +12,11 @@
         <file>images/emoji2.png</file>
         <file>images/emoji1b.png</file>
         <file>images/emoji1a.png</file>
+        <file>sounds/single-heartbeat6.wav</file>
+        <file>sounds/single-heartbeat5.wav</file>
+        <file>sounds/single-heartbeat4.wav</file>
+        <file>sounds/single-heartbeat3.wav</file>
+        <file>sounds/single-heartbeat2.wav</file>
+        <file>sounds/single-heartbeat.wav</file>
     </qresource>
 </RCC>

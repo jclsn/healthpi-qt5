@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
     std::thread updaterThread(updateValues);
 
     player = new QMediaPlayer{};
-    player->setMedia(QUrl::fromLocalFile("/home/pi/CC_folder/sounds/single-heartbeat2.wav"));
+    player->setMedia(QUrl::fromLocalFile("/home/root/sounds/single-heartbeat2.wav"));
     player->setVolume(100);
 
     return app.exec();
