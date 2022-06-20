@@ -1,11 +1,11 @@
-#ifndef THERMOMETERCONTROL_H
-#define THERMOMETERCONTROL_H
+#ifndef VERTICALBARCONTROL_H
+#define VERTICALBARCONTROL_H
 
 #include <QObject>
 #include <QTimeLine>
 #include <qqml.h>
 
-class ThermometerControl: public QObject{
+class VerticalBarControl: public QObject{
 
     Q_OBJECT
     Q_PROPERTY(unsigned int height READ height WRITE setHeight NOTIFY heightChanged)
@@ -30,4 +30,4 @@ signals:
     void heightChanged(unsigned int height);
 };
 
-#endif // THERMOMETERCONTROL_H
+#endif // VERTICALBARCONTROL_H

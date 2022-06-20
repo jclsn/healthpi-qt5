@@ -68,9 +68,9 @@ HEADERS += \
     EmojiControl.h \
     Heartbeat.h \
     Sensor.h \
-    ThermometerControl.h \
     TimelineControl.h \
     Updater.h \
+    VerticalBarControl.h \
     debug.h \
     gsrsensor.h \
     main.h \

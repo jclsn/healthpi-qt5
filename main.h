@@ -14,7 +14,7 @@
 #include "pulsesensor.h"
 #include "Heartbeat.h"
 #include "TimelineControl.h"
-#include "ThermometerControl.h"
+#include "VerticalBarControl.h"
 #include "EmojiControl.h"
 #include "ButtonControl.h"
 
@@ -31,7 +31,8 @@ Updater tempUpdater,
 Heartbeat heartbeat;
 TimelineControl timelinecntrl;
 TimelineControl heartfadecntrl;
-ThermometerControl thermometercntrl;
+VerticalBarControl thermometercntrl;
+VerticalBarControl moodcontrol;
 EmojiControl emojicntrl;
 ButtonControl btncntrl;
 

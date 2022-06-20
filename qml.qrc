@@ -18,5 +18,7 @@
         <file>sounds/single-heartbeat3.wav</file>
         <file>sounds/single-heartbeat2.wav</file>
         <file>sounds/single-heartbeat.wav</file>
+        <file>images/vertical_bar_rainbow.png</file>
+        <file>images/vertical_bar_frame.png</file>
     </qresource>
 </RCC>

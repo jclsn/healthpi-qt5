@@ -13,8 +13,6 @@ void checkButton();
 
 int main(int argc, char *argv[])
 {
-
-
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
@@ -35,6 +33,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("timelinecntrl", &timelinecntrl);
     engine.rootContext()->setContextProperty("heartfadecntrl", &heartfadecntrl);
     engine.rootContext()->setContextProperty("thermometercntrl", &thermometercntrl);
+    engine.rootContext()->setContextProperty("moodcontrol", &moodcontrol);
     engine.rootContext()->setContextProperty("emojicntrl", &emojicntrl);
     engine.rootContext()->setContextProperty("btncntrl", &btncntrl);
 
@@ -58,6 +57,7 @@ int main(int argc, char *argv[])
     player = new QMediaPlayer{};
     player->setMedia(QUrl::fromLocalFile("/home/root/sounds/single-heartbeat2.wav"));
     player->setVolume(100);
+
 
     return app.exec();
 }
@@ -119,11 +119,15 @@ void updateValues()
 
 
         if(!timelinecntrl.enabled()) {
+
+            /* Initial values */
+
             sleeping = true;
             bpmUpdater.setText("0");
             gsrUpdater.setText("0.00 V");
             tempUpdater.setText("0 °C");
-            thermometercntrl.setHeight(425);         // Calculate the height of the thermometer and set it
+            thermometercntrl.setHeight(425);
+            moodcontrol.setHeight(700);
             emojicntrl.setEmoji(QString::fromStdString("images/emoji5a.png"));
             std::thread buttonThread(checkButton);
             buttonThread.join();
@@ -152,6 +156,10 @@ void updateValues()
 
         gsrUpdater.setText(gsr);
 
+        int bar_height =   (757 * voltage_float / 5);
+        std::cout << bar_height << "\n";
+        moodcontrol.setHeight(bar_height);
+
         if (voltage_float > 4.0)
             emoji = "images/emoji5a.png";
 
@@ -177,19 +185,14 @@ void updateValues()
         bpm = QString::fromStdString(pulse);
 
         bpmUpdater.setText(bpm);
-
-
-
     }
 }
 
 void poundHeart()
 {
-
     float bpm = (float) getBPM();
     if(bpm < 30 || bpm > 200 )
         return;
-
 
     qreal rate = (qreal)  (bpm / 60.0) * 1.2;
     player->setPlaybackRate(rate);
@@ -207,7 +210,6 @@ void poundHeart()
     timelinecntrl.setFrame2(animationLength-1);
     timelinecntrl.setRunning(true);
     timelinecntrl.setEnabled(true);
-
 }
 
 void fadeHeart(unsigned int times)
@@ -295,7 +297,6 @@ unsigned int getButton()
     // std::cout << voltage;
 
     return stoi(voltage);
-
 }
 
 /* Callback function of the buttonThread */

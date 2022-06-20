@@ -105,8 +105,9 @@ Window {
         source: "images/Love_Heart.svg"
         scale: 1
         opacity: heartfadecntrl.opacity
+        visible: true
         fillMode: Image.PreserveAspectFit
-
+        
         Text {
             id: measurementActiveText
             x: 330
@@ -147,6 +148,38 @@ Window {
         onClicked: btncntrl.setClicked(!btncntrl.clicked)
     }
 
+
+
+
+    Image {
+        id: thermometer_content
+        x: 1327
+        y: 79
+        source: "images/thermometer_content.png"
+        scale: 0.4
+        fillMode: Image.PreserveAspectFit
+    }
+
+    Rectangle {
+        id: rectangle
+        x: 1413
+        y: 455
+        width: 79
+        height: thermometercntrl.height
+        color: "#000000"
+        border.color: "#000000"
+    }
+
+    Image {
+        id: white_thermometer
+        x: 1327
+        y: 79
+        source: "images/white_thermometer.png"
+        scale: 0.4
+        fillMode: Image.PreserveAspectFit
+    }
+
+
     Timeline {
         id: thermometerTimeline
         startFrame: timelinecntrl.startFrame
@@ -177,6 +210,8 @@ Window {
             }
         }
     }
+
+
     Timeline {
         id: heartfadeTimeline
         startFrame: heartfadecntrl.startFrame
@@ -213,49 +248,60 @@ Window {
         }
     }
 
+
+
+
     Image {
-        id: thermometer_content
-        x: 1327
-        y: 79
-        source: "images/thermometer_content.png"
-        scale: 0.4
+        id: vertical_bar_rainbow
+        x: 1672
+        y: 131
+        width: 75
+        height: 872
+        source: "images/vertical_bar_rainbow.png"
         fillMode: Image.PreserveAspectFit
     }
 
+
+
     Rectangle {
-        id: rectangle
-        x: 1413
-        y: 455
-        width: 79
-        height: thermometercntrl.height
+        id: vertical_bar_black_rectangle
+        x: 1675
+        y: 186
+        width: 70
+        height: moodcontrol.height
+        visible: true
         color: "#000000"
         border.color: "#000000"
     }
 
+
+
     Image {
-        id: white_thermometer
-        x: 1327
-        y: 79
-        source: "images/white_thermometer.png"
-        scale: 0.4
+        id: vertical_bar_frame
+        x: 1672
+        y: 170
+        width: 75
+        height: 794
+        source: "images/vertical_bar_frame.png"
         fillMode: Image.PreserveAspectFit
     }
 
+
     Image {
         id: emoji
-        x: 1325
-        y: 106
+        x: 1646
+        y: 100 + moodcontrol.height
+        width: 128
+        height: 146
         source: emojicntrl.emoji
         // source: "images/emoji5a.png"
         fillMode: Image.PreserveAspectFit
     }
-
 }
 
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.9}D{i:1}D{i:2}D{i:3}D{i:4}D{i:5}D{i:6}D{i:7}D{i:8}D{i:10}D{i:11}
-D{i:9}D{i:12}D{i:13}D{i:18}D{i:19}D{i:20}D{i:21}
+    D{i:0;formeditorZoom:0.9}
 }
 ##^##*/
