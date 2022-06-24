@@ -21,6 +21,7 @@
 #include "Sensor.h"
 
 #include <algorithm>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -42,7 +43,7 @@ extern "C" {
 	} while (0)
 
 class DS1820 : Sensor {
-	std::string rawTemp{};
+    std::string raw_temperature;
 
 public:
 	void readSensor();

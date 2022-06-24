@@ -2,6 +2,7 @@ QT += quick multimedia multimediawidgets
 
 CONFIG += c++17
 CONFIG += debug
+CONFIG += CMAKE_EXPORT_COMPILE_COMMANDS=ON
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.

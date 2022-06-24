@@ -2,124 +2,26 @@
 
 void DS1820::readSensor()
 {
+	std::filesystem::path w1_devices_path{"/sys/bus/w1/devices/"};
 
+	std::string prefix{"28-"};
+	std::filesystem::path suffix{"temperature"};
+	std::filesystem::path ds1820_path{};
 
-	std::string sensor_id{};
-	bool sensorFound = false;
-	int fd{};
+	for (std::filesystem::path const& device_path : std::filesystem::directory_iterator{w1_devices_path})
+    {
+		std::string device_name{device_path.filename().c_str()};
 
-	/* Try to find the sensor in the one-wire device tree */
+		if(device_name.substr(0,prefix.length()) == prefix)
+            ds1820_path = device_path / suffix;
+    }
 
-	DIR* d{};
-	struct dirent* dir{};
+	std::ifstream ds1820_handle{ds1820_path};
 
-	if ((d = opendir("/sys/bus/w1/devices/")) == NULL) {
-		perror("opendir");
-		rawTemp = "N/A";
-	}
-
-#ifdef DEBUG
-	std::cout << "\nScanning for temperature sensors..." << std::endl;
-#endif
-	while ((dir = readdir(d)) != NULL) {
-#ifdef DEBUG
-		std::cout << dir->d_name << std::endl;
-#endif
-		if (strstr(dir->d_name, "28-") != NULL) {
-			sensor_id = dir->d_name;
-			sensorFound = true;
-			closedir(d);
-			break;
-		}
-	}
-
-	if (sensorFound == false) {
-		closedir(d);
-		rawTemp = "N/A";
-	}
-
-	std::string str_path = "/sys/bus/w1/devices/" + sensor_id + "/temperature";
-
-#ifdef DEBUG
-	std::cout << str_path << std::endl;
-#endif
-
-	const char* path = str_path.c_str();
-
-	if ((fd = open(path, O_RDONLY)) < 0) {
-		std::cout << "Couldn't access DS1820 temperature sensor in device tree" << std::endl;
-		rawTemp = "N/A";
-	}
-
-	/* Seek to the end of the file to determine its length */
-
-	off_t len{};
-	ssize_t ret{};
-
-	if ((len = lseek(fd, 0, SEEK_END)) == (off_t) -1)
-		errExit("lseek");
-
-	/* Seek back to the beginning */
-
-	if ((ret = lseek(fd, 0, SEEK_SET)) == (off_t) -1)
-		errExit("lseek");
-
-	/* Allocate memory for reading and keep a pointer to the beginning for closing */
-
-	char* p2buf = (char*) calloc(len, sizeof(char));
-	char* buf = p2buf;
-
-	if (buf == NULL)
-		errExit("calloc");
-
-	/*
-	 *  Read the file:
-	 *  If reading was incomplete update len and read again.
-	 */
-
-	while (len != 0 && (ret = read(fd, buf, len)) != 0) {
-		if (ret == -1) {
-			if (errno == EINTR)
-				continue;
-			perror("read");
-			break;
-		}
-
-		len -= ret;
-		buf += ret;
-	}
-
-	if (close(fd) == -1) {
-		perror("close");
-		return;
-	}
-
-	std::string temp{p2buf};
-
-	if (p2buf)
-		free(p2buf);
-
-	if (temp.empty())
+	if (!ds1820_handle.is_open())
 		return;
 
-	/* // Add some degrees if needed */
-	/* int degrees = 3; */
-	/* int second_decimal = temp.at(1); */
-
-	/* if(second_decimal < 58 && second_decimal > 47) { */
-	/*     if(second_decimal < (58 - degrees) ) */
-	/*         temp.at(1) += degrees; */
-	/*     else { */
-	/*         temp.at(1) -= 10 - degrees; */
-	/*         if(temp.at(0) != 9) */
-	/*             temp.at(0) += 1; */
-	/*         else */
-	/*             temp.at(0) -= 9; */
-	/*     } */
-	/* } */
-
-	if (!temp.empty())
-		rawTemp = temp;
+    ds1820_handle >> raw_temperature;
 }
 
 /* Construct a std::string from the C-string */
@@ -127,7 +29,7 @@ void DS1820::readSensor()
 std::string DS1820::getTempString()
 {
 
-	std::string temp = rawTemp;
+    std::string temp = raw_temperature;
 
 	if (temp == "N/A")
 		return temp;
@@ -150,7 +52,7 @@ std::string DS1820::getTempString()
 unsigned int DS1820::getThermometerHeight()
 {
 
-	std::string tempstring = rawTemp;
+    std::string tempstring = raw_temperature;
 
 	float temp_float;
 
