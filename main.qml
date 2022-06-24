@@ -4,6 +4,7 @@ import QtQuick.Timeline 1.0
 import QtQuick.Controls 2.15
 
 Window {
+
     x: 11
     width: 1920
     height: 1080
@@ -72,11 +73,6 @@ Window {
         font.family: "IBM Plex Mono"
     }
 
-
-
-
-
-
     Image {
         id: love_Heart
         x: 264
@@ -88,7 +84,7 @@ Window {
         opacity: heartfadecntrl.opacity
         visible: true
         fillMode: Image.PreserveAspectFit
-        
+
         Text {
             id: measurementActiveText
             x: 330
@@ -115,8 +111,6 @@ Window {
         }
     }
 
-
-
     Image {
         id: green_circle
         x: 293
@@ -139,9 +133,6 @@ Window {
         text: qsTr("Button")
         onClicked: btncntrl.setClicked(!btncntrl.clicked)
     }
-
-
-
 
     Image {
         id: thermometer_content
@@ -172,7 +163,6 @@ Window {
         source: "images/white_thermometer.png"
         fillMode: Image.PreserveAspectFit
     }
-
 
     Timeline {
         id: thermometerTimeline
@@ -242,9 +232,6 @@ Window {
         }
     }
 
-
-
-
     Image {
         id: vertical_bar_rainbow
         x: 1607
@@ -254,8 +241,6 @@ Window {
         source: "images/vertical_bar_rainbow.png"
         fillMode: Image.PreserveAspectFit
     }
-
-
 
     Rectangle {
         id: vertical_bar_black_rectangle
@@ -268,8 +253,6 @@ Window {
         border.color: "#000000"
     }
 
-
-
     Image {
         id: vertical_bar_frame
         x: 1607
@@ -279,7 +262,6 @@ Window {
         source: "images/vertical_bar_frame.png"
         fillMode: Image.PreserveAspectFit
     }
-
 
     Image {
         id: emoji
@@ -293,9 +275,6 @@ Window {
     }
 
 }
-
-
-
 
 /*##^##
 Designer {

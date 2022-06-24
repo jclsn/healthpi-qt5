@@ -6,30 +6,34 @@
 #include <qqml.h>
 #include <string>
 
-class EmojiControl: public QObject{
+class EmojiControl : public QObject {
 
-    Q_OBJECT
-    Q_PROPERTY(QString emoji READ emoji WRITE setEmoji NOTIFY emojiChanged)
+	Q_OBJECT
+	Q_PROPERTY(QString emoji READ emoji WRITE setEmoji NOTIFY emojiChanged)
 
-    QString m_emoji;
+	QString m_emoji;
 
 public:
-    using QObject::QObject;
-    QString emoji() const{
-        return m_emoji;
-    }
+	using QObject::QObject;
+
+	QString emoji() const
+	{
+		return m_emoji;
+	}
 
 public slots:
-    void setEmoji(QString emoji){
 
-        if (m_emoji == emoji)
-            return;
-        m_emoji = emoji;
-        emit emojiChanged(m_emoji);
-    }
+	void setEmoji(QString emoji)
+	{
+
+		if (m_emoji == emoji)
+			return;
+		m_emoji = emoji;
+		emit emojiChanged(m_emoji);
+	}
 
 signals:
-    void emojiChanged(QString emoji);
+	void emojiChanged(QString emoji);
 };
 
-#endif // EMOJICONTROL_H
+#endif    // EMOJICONTROL_H

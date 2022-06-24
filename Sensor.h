@@ -5,15 +5,14 @@
 #ifndef SENSOR_H
 #define SENSOR_H
 
-class Sensor
-{
+class Sensor {
 
 public:
-    Sensor();
-    int init();
+	Sensor();
+	int init();
 
 protected:
-    int value{};
+	int value{};
 };
 
-#endif // SENSOR_H
+#endif    // SENSOR_H

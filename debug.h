@@ -7,4 +7,4 @@
 
 extern bool sleeping;
 
-#endif // DEBUG_H
+#endif    // DEBUG_H

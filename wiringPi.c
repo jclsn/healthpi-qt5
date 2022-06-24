@@ -1,16 +1,15 @@
 #include "wiringPi.h"
 
-static uint64_t epochMilli, epochMicro ;
+static uint64_t epochMilli, epochMicro;
 
-void initialiseEpoch (void)
+void initialiseEpoch(void)
 {
-  struct timespec ts ;
+	struct timespec ts;
 
-  clock_gettime (CLOCK_MONOTONIC_RAW, &ts) ;
-  epochMilli = (uint64_t)ts.tv_sec * (uint64_t)1000    + (uint64_t)(ts.tv_nsec / 1000000L) ;
-  epochMicro = (uint64_t)ts.tv_sec * (uint64_t)1000000 + (uint64_t)(ts.tv_nsec /    1000L) ;
+	clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
+	epochMilli = (uint64_t) ts.tv_sec * (uint64_t) 1000 + (uint64_t) (ts.tv_nsec / 1000000L);
+	epochMicro = (uint64_t) ts.tv_sec * (uint64_t) 1000000 + (uint64_t) (ts.tv_nsec / 1000L);
 }
-
 
 /*
  * delay:
@@ -18,16 +17,15 @@ void initialiseEpoch (void)
  *********************************************************************************
  */
 
-void delay (unsigned int howLong)
+void delay(unsigned int howLong)
 {
-  struct timespec sleeper, dummy ;
+	struct timespec sleeper, dummy;
 
-  sleeper.tv_sec  = (time_t)(howLong / 1000) ;
-  sleeper.tv_nsec = (long)(howLong % 1000) * 1000000 ;
+	sleeper.tv_sec = (time_t) (howLong / 1000);
+	sleeper.tv_nsec = (long) (howLong % 1000) * 1000000;
 
-  nanosleep (&sleeper, &dummy) ;
+	nanosleep(&sleeper, &dummy);
 }
-
 
 /*
  * delayMicroseconds:
@@ -47,37 +45,35 @@ void delay (unsigned int howLong)
  *********************************************************************************
  */
 
-void delayMicrosecondsHard (unsigned int howLong)
+void delayMicrosecondsHard(unsigned int howLong)
 {
-  struct timeval tNow, tLong, tEnd ;
+	struct timeval tNow, tLong, tEnd;
 
-  gettimeofday (&tNow, NULL) ;
-  tLong.tv_sec  = howLong / 1000000 ;
-  tLong.tv_usec = howLong % 1000000 ;
-  timeradd (&tNow, &tLong, &tEnd) ;
+	gettimeofday(&tNow, NULL);
+	tLong.tv_sec = howLong / 1000000;
+	tLong.tv_usec = howLong % 1000000;
+	timeradd(&tNow, &tLong, &tEnd);
 
-  while (timercmp (&tNow, &tEnd, <))
-    gettimeofday (&tNow, NULL) ;
+	while (timercmp(&tNow, &tEnd, <))
+		gettimeofday(&tNow, NULL);
 }
 
-void delayMicroseconds (unsigned int howLong)
+void delayMicroseconds(unsigned int howLong)
 {
-  struct timespec sleeper ;
-  unsigned int uSecs = howLong % 1000000 ;
-  unsigned int wSecs = howLong / 1000000 ;
+	struct timespec sleeper;
+	unsigned int uSecs = howLong % 1000000;
+	unsigned int wSecs = howLong / 1000000;
 
-  /**/ if (howLong ==   0)
-    return ;
-  else if (howLong  < 100)
-    delayMicrosecondsHard (howLong) ;
-  else
-  {
-    sleeper.tv_sec  = wSecs ;
-    sleeper.tv_nsec = (long)(uSecs * 1000L) ;
-    nanosleep (&sleeper, NULL) ;
-  }
+	/**/ if (howLong == 0)
+		return;
+	else if (howLong < 100)
+		delayMicrosecondsHard(howLong);
+	else {
+		sleeper.tv_sec = wSecs;
+		sleeper.tv_nsec = (long) (uSecs * 1000L);
+		nanosleep(&sleeper, NULL);
+	}
 }
-
 
 /*
  * millis:
@@ -86,18 +82,17 @@ void delayMicroseconds (unsigned int howLong)
  *********************************************************************************
  */
 
-unsigned int millis (void)
+unsigned int millis(void)
 {
-  uint64_t now;
+	uint64_t now;
 
-  struct  timespec ts ;
+	struct timespec ts;
 
-  clock_gettime (CLOCK_MONOTONIC_RAW, &ts) ;
-  now  = (uint64_t)ts.tv_sec * (uint64_t)1000 + (uint64_t)(ts.tv_nsec / 1000000L) ;
+	clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
+	now = (uint64_t) ts.tv_sec * (uint64_t) 1000 + (uint64_t) (ts.tv_nsec / 1000000L);
 
-  return (uint32_t)(now - epochMilli) ;
+	return (uint32_t) (now - epochMilli);
 }
-
 
 /*
  * micros:
@@ -106,13 +101,13 @@ unsigned int millis (void)
  *********************************************************************************
  */
 
-unsigned int micros (void)
+unsigned int micros(void)
 {
-  uint64_t now ;
-  struct  timespec ts ;
+	uint64_t now;
+	struct timespec ts;
 
-  clock_gettime (CLOCK_MONOTONIC_RAW, &ts) ;
-  now  = (uint64_t)ts.tv_sec * (uint64_t)1000000 + (uint64_t)(ts.tv_nsec / 1000) ;
+	clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
+	now = (uint64_t) ts.tv_sec * (uint64_t) 1000000 + (uint64_t) (ts.tv_nsec / 1000);
 
-  return (uint32_t)(now - epochMicro) ;
+	return (uint32_t) (now - epochMicro);
 }

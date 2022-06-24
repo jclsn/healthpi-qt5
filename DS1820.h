@@ -14,35 +14,38 @@
  *         Author:  Jan Claussen, jan.claussen10@web.de
  *
  * =====================================================================================
- */  
+ */
 
 // #define DEBUG 1
 
-#include <iostream>
-#include <string>
-#include <algorithm>
 #include "Sensor.h"
-#include <sstream>
 
-extern "C"{
-#include <unistd.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <string.h>
+#include <algorithm>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+
+extern "C" {
 #include <dirent.h>
+#include <fcntl.h>
 #include <math.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <unistd.h>
 }
 
-#define errExit(msg) do { perror(msg); exit(EXIT_FAILURE); \
-    } while (0) 
+#define errExit(msg)        \
+	do {                    \
+		perror(msg);        \
+		exit(EXIT_FAILURE); \
+	} while (0)
 
-
-class DS1820 : Sensor
-{
-    std::string rawTemp{};
+class DS1820 : Sensor {
+	std::string rawTemp{};
 
 public:
-    void readSensor();
-    std::string getTempString();
-    unsigned int getThermometerHeight();
+	void readSensor();
+	std::string getTempString();
+	unsigned int getThermometerHeight();
 };
