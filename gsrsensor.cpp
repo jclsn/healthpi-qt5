@@ -1,89 +1,49 @@
 #include "gsrsensor.h"
+#include <string>
 
 GSRSensor::GSRSensor() {}
 
-int GSRSensor::readSensor()
+void GSRSensor::read_sensor()
 {
-	int fd{};
-	char path[60];
-	int len = 20;
-	ssize_t ret;
 
-	std::string sensorValueString;
+	std::filesystem::path gsr_sensor_path{"/sys/bus/spi/devices/spi0.0/iio:device0/in_voltage3_raw"};
+	std::ifstream gsr_sensor_handle{gsr_sensor_path};
 
-	char* p2buf = (char*) calloc(len, sizeof(char));
-	char* buf = p2buf;
+	std::string sensorValueString{};
 
-	for (int i = 0; i < 10; ++i) {
-		sprintf(path, "/sys/bus/spi/devices/spi0.0/iio:device%d/in_voltage3_raw", i);
-		fd = open(path, O_RDONLY);
-		if (fd > 0)
-			break;
-	}
+	gsr_sensor_handle >>  sensorValueString;
 
-	if (fd == -1) {
-		std::cout << "Couldn't access GSR-sensor." << std::endl;
-		return -1;
-	}
-
-
-	if (buf == NULL)
-		perror("calloc");
-
-	while (len != 0 && (ret = read(fd, buf, len)) != 0) {
-		if (ret == -1) {
-			if (errno == EINTR)
-				continue;
-			perror("read");
-			break;
-		}
-
-		len -= ret;
-		buf += ret;
-	}
-
-	if (close(fd) == -1)
-		perror("close");
-
-	sensorValueString = std::string(p2buf);
-
-	if (p2buf)
-		free(p2buf);
-
-	sensorValue = stoi(sensorValueString) * 1.5;
+	sensor_value = stoi(sensorValueString) * 1.5;
 
 	/* Convert sensor value to voltage */
 
-	voltage = (sensorValue * 5. / 1024.0);
+	voltage = (sensor_value * 5. / 1024.0);
+}
+
+void GSRSensor::update_sample_list(){
 
 	/* Place new voltage value in the array */
+	read_sensor();
 
-	a_sensorValues.emplace_back(voltage);
+	a_sensor_values.emplace_back(voltage);
 
-	if (a_sensorValues.size() > 10)
-		a_sensorValues.pop_front();
-
-	// std::cout << sensorValue << " " << voltage << std::endl;
-
-	return 0;
+	if (a_sensor_values.size() > 10)
+		a_sensor_values.pop_front();
 }
 
-float GSRSensor::getGSRAvgVoltage()
+float GSRSensor::get_avg_voltage()
 {
 	float sum{};
-	for (float value : a_sensorValues)
+	for (float value : a_sensor_values)
 		sum += value;
 
-	return sum / a_sensorValues.size();
+	return sum / a_sensor_values.size();
 }
 
-std::string GSRSensor::getGSRAvgVoltageString()
+std::string GSRSensor::get_avg_voltage_string()
 {
 
-	char voltage_c[20];
-	std::string voltage_string{};
-	sprintf(voltage_c, "%.2f", getGSRAvgVoltage());
-	voltage_string = std::string(voltage_c);
+	std::string voltage_string = std::to_string(get_avg_voltage());
 
 	if (!voltage_string.empty()) {
 		try {
@@ -93,27 +53,29 @@ std::string GSRSensor::getGSRAvgVoltageString()
 		}
 	}
 
+	std::cout << voltage_string << std::endl;
+
 	return voltage_string;
 }
 
-void GSRSensor::updateHumanResistance()
+void GSRSensor::update_resistance()
 {
-	resistance = ((1024 + 2 * getGSRAvgVoltage()) * 10000) / (512 - getGSRAvgVoltage());
+	resistance = ((1024 + 2 * get_avg_voltage()) * 10000) / (512 - get_avg_voltage());
 }
 
-std::string GSRSensor::getHumanResistance()
+std::string GSRSensor::get_resistance_string()
 {
 	char resistance_c[20]{};
 	sprintf(resistance_c, "%f Ω", resistance);
 	return std::string(resistance_c);
 }
 
-void GSRSensor::updateHumanConductance()
+void GSRSensor::update_conductance()
 {
 	conductance = (1.0 / resistance) * 1000;
 }
 
-std::string GSRSensor::getHumanConductance()
+std::string GSRSensor::get_conductance_string()
 {
 	char conductance_c[20]{};
 	sprintf(conductance_c, "%f", (1.0 / resistance) * 1000);

@@ -1,6 +1,6 @@
 #include "DS1820.h"
 
-void DS1820::readSensor()
+void DS1820::read_sensor()
 {
 	std::filesystem::path w1_devices_path{"/sys/bus/w1/devices/"};
 
@@ -26,30 +26,30 @@ void DS1820::readSensor()
 
 /* Construct a std::string from the C-string */
 
-std::string DS1820::getTempString()
+std::string DS1820::get_formatted_temperature()
 {
 
-    std::string temp = raw_temperature;
+    std::string temperature = raw_temperature;
 
-	if (temp == "N/A")
-		return temp;
+	if (temperature == "N/A")
+		return temperature;
 
 	try {
-		if (!temp.empty()) {
-			temp.erase(std::remove(temp.begin(), temp.end(), '\n'), temp.end());
-			temp.insert(2, ".");
-			temp.replace(4, 2, " °C");
+		if (!temperature.empty()) {
+			temperature.erase(std::remove(temperature.begin(), temperature.end(), '\n'), temperature.end());
+			temperature.insert(2, ".");
+			temperature.replace(4, 2, " °C");
 		}
 
 	} catch (std::exception e) {
 	}
 
-	return temp;
+	return temperature;
 }
 
 /* Function to calculate the height of the thermomether graphic */
 
-unsigned int DS1820::getThermometerHeight()
+unsigned int DS1820::get_thermometer_height()
 {
 
     std::string tempstring = raw_temperature;

@@ -1,0 +1,58 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BUTTON_CONTROL_H	ButtonControl.h	2;"	d
+ButtonControl	ButtonControl.h	/^class ButtonControl : public QObject {$/;"	c
+m_clicked	ButtonControl.h	/^	bool m_clicked;$/;"	m	class:ButtonControl
+m_statusText	ButtonControl.h	/^	QString m_statusText = "deactivated";$/;"	m	class:ButtonControl
+clicked	ButtonControl.h	/^	bool clicked() const$/;"	f	class:ButtonControl
+statusText	ButtonControl.h	/^	QString statusText() const$/;"	f	class:ButtonControl
+setStatusText	ButtonControl.h	/^	void setStatusText(QString statusText)$/;"	f	class:ButtonControl
+setClicked	ButtonControl.h	/^	void setClicked(bool clicked)$/;"	f	class:ButtonControl
+readSensor	DS1820.cpp	/^void DS1820::readSensor()$/;"	f	class:DS1820
+get_formatted_temperature	DS1820.cpp	/^std::string DS1820::get_formatted_temperature()$/;"	f	class:DS1820
+get_thermometer_height	DS1820.cpp	/^unsigned int DS1820::get_thermometer_height()$/;"	f	class:DS1820
+errExit	DS1820.h	39;"	d
+DS1820	DS1820.h	/^class DS1820 : Sensor {$/;"	c
+raw_temperature	DS1820.h	/^    std::string raw_temperature;$/;"	m	class:DS1820
+EMOJICONTROL_H	EmojiControl.h	2;"	d
+EmojiControl	EmojiControl.h	/^class EmojiControl : public QObject {$/;"	c
+m_emoji	EmojiControl.h	/^	QString m_emoji;$/;"	m	class:EmojiControl
+emoji	EmojiControl.h	/^	QString emoji() const$/;"	f	class:EmojiControl
+setEmoji	EmojiControl.h	/^	void setEmoji(QString emoji)$/;"	f	class:EmojiControl
+HEARTBEAT_H	Heartbeat.h	2;"	d
+Heartbeat	Heartbeat.h	/^class Heartbeat : public QObject {$/;"	c
+scale	Heartbeat.h	/^	double scale() const$/;"	f	class:Heartbeat
+setScale	Heartbeat.h	/^	void setScale(double scale)$/;"	f	class:Heartbeat
+Sensor	Sensor.cpp	/^Sensor::Sensor() {}$/;"	f	class:Sensor
+SENSOR_H	Sensor.h	6;"	d
+Sensor	Sensor.h	/^class Sensor {$/;"	c
+TIMELINE_CONTROL_H	TimelineControl.h	2;"	d
+TimelineControl	TimelineControl.h	/^class TimelineControl : public QObject {$/;"	c
+running	TimelineControl.h	/^	bool running() const$/;"	f	class:TimelineControl
+duration	TimelineControl.h	/^	unsigned int duration() const$/;"	f	class:TimelineControl
+startFrame	TimelineControl.h	/^	unsigned int startFrame() const$/;"	f	class:TimelineControl
+frame1	TimelineControl.h	/^	unsigned int frame1() const$/;"	f	class:TimelineControl
+frame2	TimelineControl.h	/^	unsigned int frame2() const$/;"	f	class:TimelineControl
+loops	TimelineControl.h	/^	unsigned int loops() const$/;"	f	class:TimelineControl
+enabled	TimelineControl.h	/^	bool enabled() const$/;"	f	class:TimelineControl
+from	TimelineControl.h	/^	bool from() const$/;"	f	class:TimelineControl
+setRunning	TimelineControl.h	/^	void setRunning(bool running)$/;"	f	class:TimelineControl
+setDuration	TimelineControl.h	/^	void setDuration(unsigned int duration)$/;"	f	class:TimelineControl
+setStartFrame	TimelineControl.h	/^	void setStartFrame(unsigned int startFrame)$/;"	f	class:TimelineControl
+setFrame1	TimelineControl.h	/^	void setFrame1(unsigned int frame1)$/;"	f	class:TimelineControl
+setFrame2	TimelineControl.h	/^	void setFrame2(unsigned int frame2)$/;"	f	class:TimelineControl
+setLoops	TimelineControl.h	/^	void setLoops(unsigned int loops)$/;"	f	class:TimelineControl
+setEnabled	TimelineControl.h	/^	void setEnabled(bool enabled)$/;"	f	class:TimelineControl
+setFrom	TimelineControl.h	/^	void setFrom(unsigned int from)$/;"	f	class:TimelineControl
+UPDATER_H	Updater.h	2;"	d
+Updater	Updater.h	/^class Updater : public QObject {$/;"	c
+text	Updater.h	/^	QString text() const$/;"	f	class:Updater
+setText	Updater.h	/^	void setText(QString text)$/;"	f	class:Updater
+VERTICALBARCONTROL_H	VerticalBarControl.h	2;"	d
+VerticalBarControl	VerticalBarControl.h	/^class VerticalBarControl : public QObject {$/;"	c
+height	VerticalBarControl.h	/^	unsigned int height() const$/;"	f	class:VerticalBarControl
+setHeight	VerticalBarControl.h	

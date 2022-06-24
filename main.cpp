@@ -69,9 +69,7 @@ int main(int argc, char* argv[])
 
 void updateValues()
 {
-
-	initialiseEpoch();
-
+	clock_init();
 	/* Create sensor objects */
 
 	DS1820 ds1820{};
@@ -139,18 +137,18 @@ void updateValues()
 
 		/* TEMPERATURE */
 
-		ds1820.readSensor();                                                    // Query the temperature sensor value
-		tempUpdater.setText(QString::fromStdString(ds1820.getTempString()));    // Update the text in the GUI
+		ds1820.read_sensor();                                                    // Query the temperature sensor value
+		tempUpdater.setText(QString::fromStdString(ds1820.get_formatted_temperature()));    // Update the text in the GUI
 		thermometercntrl.setHeight(
-		    ds1820.getThermometerHeight());    // Calculate the height of the thermometer and set it
-
+		    ds1820.get_thermometer_height());    // Calculate the height of the thermometer and set it
+											   //
 		/* GALVANIC SKIN RESPONSE SENSOR*/
 
-		gsrsensor.readSensor();
-		voltage_float = gsrsensor.getGSRAvgVoltage();
-		gsr = QString::fromStdString(gsrsensor.getGSRAvgVoltageString());
-		// gsr2 = QString::fromStdString(gsrsensor.getHumanResistance());
-		// gsr3 = QString::fromStdString(gsrsensor.getHumanConductance());
+		gsrsensor.update_sample_list();
+		voltage_float = gsrsensor.get_avg_voltage();
+		gsr = QString::fromStdString(gsrsensor.get_avg_voltage_string());
+		gsr2 = QString::fromStdString(gsrsensor.get_resistance_string());
+		gsr3 = QString::fromStdString(gsrsensor.get_conductance_string());
 
 		// std::cout << "voltage = " << voltage << ", resistance = " << resistance << ", conductance = " << conductance
 		// << std::endl;

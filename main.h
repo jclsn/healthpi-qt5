@@ -1,5 +1,4 @@
-#ifndef MAIN_H
-#define MAIN_H
+#pragma once
 
 #include "ButtonControl.h"
 #include "DS1820.h"
@@ -10,6 +9,7 @@
 #include "VerticalBarControl.h"
 #include "global.h"
 #include "gsrsensor.h"
+#include "pulsesensor.h"
 
 #include <QtMultimedia/QtMultimedia>
 #include <iostream>
@@ -46,6 +46,4 @@ unsigned int calcThermometerHeight();
 
 bool sleeping = true;
 
-
-#endif    // MAIN_H
 

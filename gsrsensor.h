@@ -1,48 +1,35 @@
-#ifndef GSRSENSOR_H
-#define GSRSENSOR_H
+#pragma once
 
 #include <Sensor.h>
 #include <algorithm>
 #include <deque>
 #include <iostream>
+#include <fstream>
+#include <filesystem>
 #include <string>
 
-extern "C" {
-#include <fcntl.h>
-#include <signal.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <wiringPi.h>
-}
-
-#define errExit(msg)        \
-	do {                    \
-		perror(msg);        \
-		exit(EXIT_FAILURE); \
-	} while (0)
+#include "wiringPi.h"
 
 class GSRSensor : Sensor {
 	int threshold{};
-	float sensorValue{};
+	float sensor_value{};
 	float voltage{};
 	float avg_voltage{};
 	float resistance{};
 	float conductance{};
-	std::deque<float> a_sensorValues{};
+	std::deque<float> a_sensor_values{};
 
 public:
 	GSRSensor();
 
-	int readSensor();
-	void updateHumanResistance();
-	void updateHumanConductance();
-	float getGSRVoltage();
-	float getGSRAvgVoltage();
-	std::string getGSRAvgVoltageString();
-	std::string getHumanResistance();
-	std::string getHumanConductance();
+	void read_sensor();
+	void update_sample_list();
+	void update_resistance();
+	void update_conductance();
+	float get_voltage();
+	float get_avg_voltage();
+	std::string get_avg_voltage_string();
+	std::string get_resistance_string();
+	std::string get_conductance_string();
 };
 
-#endif    // GSRSENSOR_H

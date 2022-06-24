@@ -230,3 +230,7 @@ int read_bpm_thread()
 	return 0;
 }
 
+void clock_init() {
+    initialiseEpoch();
+}
+

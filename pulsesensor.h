@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <chrono>
 
 extern "C" {
 #include "wiringPi.h"
@@ -41,3 +42,5 @@ extern "C" {
 #define JITTER_SIGNAL_IDLE 0
 #define DATA_POINTS        100
 
+
+void clock_init();

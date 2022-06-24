@@ -46,7 +46,7 @@ class DS1820 : Sensor {
     std::string raw_temperature;
 
 public:
-	void readSensor();
-	std::string getTempString();
-	unsigned int getThermometerHeight();
+	void read_sensor();
+	std::string get_formatted_temperature();
+	unsigned int get_thermometer_height();
 };
