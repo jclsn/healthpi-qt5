@@ -8,20 +8,6 @@
 #include <chrono>
 #include <thread>
 
-extern "C" {
-#include <errno.h>
-#include <fcntl.h>
-#include <signal.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <time.h>
-#include <unistd.h>
-}
-
 // PULSE SENSOR LEDS
 #define BLINK_LED 0
 //#define FADE_LED      // NEEDS THIS FEATURE ADDED

@@ -3,8 +3,7 @@
  *
  *       Filename:  ds1820.h
  *
- *    Description:  Function to read the temperature value from the DS1820 integraton
- *                  provided by the Linux kernel
+ *    Description:  Function to read the temperature value from sysfs
  *
  *        Version:  1.0
  *        Created:  12.08.2021 12:05:10 CEST
@@ -25,22 +24,8 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <cmath>
 #include <string>
-
-extern "C" {
-#include <dirent.h>
-#include <fcntl.h>
-#include <math.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <unistd.h>
-}
-
-#define errExit(msg)        \
-	do {                    \
-		perror(msg);        \
-		exit(EXIT_FAILURE); \
-	} while (0)
 
 class DS1820 : Sensor {
     std::string raw_temperature;
