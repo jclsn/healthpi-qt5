@@ -6,10 +6,9 @@
 #include <iostream>
 #include <string>
 #include <chrono>
+#include <thread>
 
 extern "C" {
-#include "wiringPi.h"
-
 #include <errno.h>
 #include <fcntl.h>
 #include <signal.h>
@@ -22,12 +21,6 @@ extern "C" {
 #include <time.h>
 #include <unistd.h>
 }
-
-#define errExit(msg)        \
-	do {                    \
-		perror(msg);        \
-		exit(EXIT_FAILURE); \
-	} while (0)
 
 // PULSE SENSOR LEDS
 #define BLINK_LED 0

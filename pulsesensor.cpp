@@ -2,6 +2,7 @@
 
 #include "Heartbeat.h"
 #include "debug.h"
+#include <ratio>
 
 /* VARIABLES USED TO DETERMINE SAMPLE JITTER & TIME OUT */
 
@@ -36,12 +37,22 @@ volatile int amp = 100;                       // beat amplitude 1/10 of input ra
 volatile int bpm = 0;
 volatile bool sensor_is_reading = false;    // set to 1 while Signal > Threshold
 
+
+std::chrono::time_point<std::chrono::high_resolution_clock> start{};
+std::chrono::time_point<std::chrono::high_resolution_clock> now{};
+std::chrono::microseconds duration{};
+
 /* FUNCTION PROTOTYPES */
 
 void get_pulse();
 void stopTimer(void);
 void init_pulsesensor_vars(void);
 void initJitterVariables(void);
+
+
+void clock_init() {
+	start = std::chrono::high_resolution_clock::now();
+}
 
 int get_bpm()
 {
@@ -86,13 +97,18 @@ void init_pulsesensor_vars(void)
 	amp = 100;                        // Beat amplitude 1/10 of input range.
 	first_beat = true;                // Looking for the first beat
 	second_beat = false;              // Not yet looking for the second beat in a row
-	last_time = micros();
+									  //
+    now = std::chrono::high_resolution_clock::now();
+	last_time = std::chrono::duration_cast<std::chrono::microseconds>(start - now).count();
+
 }
 
 void get_pulse()
 {    // int sig_num){
 
-	this_time = micros();    // Time passed since the program has started
+	/* this_time = micros();    // Time passed since the program has started */
+    now = std::chrono::high_resolution_clock::now();
+	this_time = std::chrono::duration_cast<std::chrono::microseconds>(start - now).count();
 
 	pulse_signal = get_raw_signal();    // Get the raw sensor data
 
@@ -223,14 +239,10 @@ void get_pulse()
 int read_bpm_thread()
 {
 	while (1) {
-		delayMicroseconds(1800);    // DELAY TIME NEEDS TO BE ATOMATED
+		std::this_thread::sleep_for(std::chrono::microseconds{1800});
 		get_pulse();
 	}
 
 	return 0;
-}
-
-void clock_init() {
-    initialiseEpoch();
 }
 
