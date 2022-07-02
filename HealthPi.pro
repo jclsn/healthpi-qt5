@@ -2,7 +2,6 @@ QT += quick multimedia multimediawidgets
 
 CONFIG += c++17
 CONFIG += debug
-CONFIG += CMAKE_EXPORT_COMPILE_COMMANDS=ON
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -14,7 +13,6 @@ SOURCES += \
         gsrsensor.cpp \
         main.cpp \
         pulsesensor.cpp \
-        wiringPi.c
 
 RESOURCES += qml.qrc
 
@@ -76,8 +74,7 @@ HEADERS += \
     global.h \
     gsrsensor.h \
     main.h \
-    pulsesensor.h \
-    wiringPi.h
+    pulsesensor.h
 
 
 INSTALLS        = target
