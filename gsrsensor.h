@@ -1,16 +1,13 @@
 #pragma once
 
-#include <Sensor.h>
 #include <algorithm>
 #include <deque>
-#include <iostream>
-#include <fstream>
 #include <filesystem>
+#include <fstream>
+#include <iostream>
 #include <string>
 
-#include "wiringPi.h"
-
-class GSRSensor : Sensor {
+class GSRSensor {
 	int threshold{};
 	float sensor_value{};
 	float voltage{};

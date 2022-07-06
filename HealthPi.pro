@@ -9,7 +9,6 @@ CONFIG += debug
 
 SOURCES += \
         DS1820.cpp \
-        Sensor.cpp \
         gsrsensor.cpp \
         main.cpp \
         pulsesensor.cpp \
@@ -66,7 +65,6 @@ HEADERS += \
     DS1820.h \
     EmojiControl.h \
     Heartbeat.h \
-    Sensor.h \
     TimelineControl.h \
     Updater.h \
     VerticalBarControl.h \

@@ -55,12 +55,13 @@ int main(int argc, char* argv[])
 
 	engine.load(url);
 
-	std::thread updaterThread(updateValues);
 
 	player = new QMediaPlayer{};
 	player->setMedia(QUrl::fromLocalFile("/home/root/sounds/single-heartbeat2.wav"));
 	player->setVolume(100);
 
+    std::thread pulseThread(&Pulsesensor::read_bpm_thread, std::ref(pulsesensor));
+    std::thread updaterThread(updateValues);
 
 	return app.exec();
 }
@@ -69,22 +70,11 @@ int main(int argc, char* argv[])
 
 void updateValues()
 {
-	clock_init();
-	/* Create sensor objects */
-
-	DS1820 ds1820{};
-	GSRSensor gsrsensor{};
-
-	char pulse_c[20]{};
 	std::string pulse{};
-
-	/* Create Pulsesensor object */
-
-	std::thread pulseThread(read_bpm_thread);
 
 	// std::thread thermoThread(thermometerThread);
 
-	QString temp{}, gsr{}, gsr2{}, gsr3{}, bpm{};
+    QString temp{}, gsr{}, gsr2{}, gsr3{};
 
 	float voltage_float{};
 	std::string emoji = "images/emoji5a.png";
@@ -94,7 +84,8 @@ void updateValues()
 
 #ifdef DEBUG_SOUND
 	while (1) {
-		sleep(1);
+		/* sleep(1); */
+		std::this_thread::sleep_for(std::chrono::seconds{1});
 		player->play();
 	}
 #endif
@@ -102,7 +93,8 @@ void updateValues()
 #ifdef DEBUG_HEARTFADE
 	heartfadecntrl.setEnabled(true);
 	while (1) {
-		sleep(1);
+		/* sleep(1); */
+		std::this_thread::sleep_for(std::chrono::seconds{1});
 		fadeHeart(1);
 	}
 #endif
@@ -111,7 +103,7 @@ void updateValues()
 
 		/*
 		 *  Wait for start button to be pressed. Since the button is polled via SPI,
-		 *  the thread cannot must stop while measuring
+         *  the thread must stop while measuring
 		 */
 
 
@@ -131,17 +123,19 @@ void updateValues()
 
 			heartfadecntrl.setEnabled(true);
 			fadeHeart(5);
-			sleep(5);
+			std::this_thread::sleep_for(std::chrono::seconds{5});
+
 			sleeping = false;
 		}
 
 		/* TEMPERATURE */
 
-		ds1820.read_sensor();                                                    // Query the temperature sensor value
-		tempUpdater.setText(QString::fromStdString(ds1820.get_formatted_temperature()));    // Update the text in the GUI
+		ds1820.read_sensor();    // Query the temperature sensor value
+		tempUpdater.setText(
+		    QString::fromStdString(ds1820.get_formatted_temperature()));    // Update the text in the GUI
 		thermometercntrl.setHeight(
 		    ds1820.get_thermometer_height());    // Calculate the height of the thermometer and set it
-											   //
+
 		/* GALVANIC SKIN RESPONSE SENSOR*/
 
 		gsrsensor.update_sample_list();
@@ -176,20 +170,20 @@ void updateValues()
 
 		emojicntrl.setEmoji(QString::fromStdString(emoji));
 
-
 		// /* BPM */
 
-		sprintf(pulse_c, "%d", get_bpm());
-		pulse = std::string(pulse_c);
-		bpm = QString::fromStdString(pulse);
-
-		bpmUpdater.setText(bpm);
+        bpmUpdater.setText(QString::fromStdString(std::to_string(pulsesensor.get_bpm())));
 	}
 }
 
 void poundHeart()
 {
-	float bpm = (float) get_bpm();
+	std::cout << "Pound!\n";
+
+    int bpm = pulsesensor.get_bpm();
+
+    std::cout << "BPM = " << pulsesensor.get_bpm() << "\n";
+
 	if (bpm < 30 || bpm > 200)
 		return;
 
@@ -245,52 +239,56 @@ void enableHeart()
 
 unsigned int getButton()
 {
-	int fd{};
-	char path[60]{};
-	int len = 20;
-	ssize_t ret{};
+	std::filesystem::path button_path{"/sys/bus/spi/devices/spi0.0/iio:device0/in_voltage1_raw"};
+	std::ifstream button_handle{button_path};
+
+	/* int fd{}; */
+	/* char path[60]{}; */
+	/* int len = 20; */
+	/* ssize_t ret{}; */
 
 	std::string voltage{};
 
-	char* p2buf = (char*) calloc(len, sizeof(char));
-	char* buf = p2buf;
+	/* 	char* p2buf = (char*) calloc(len, sizeof(char)); */
+	/* 	char* buf = p2buf; */
 
-	for (int i = 0; i < 10; ++i) {
-		sprintf(path, "/sys/bus/spi/devices/spi0.0/iio:device%d/in_voltage1_raw", i);
-		fd = open(path, O_RDONLY);
-		if (fd > 0)
-			break;
-	}
+	/* 	for (int i = 0; i < 10; ++i) { */
+	/* 		sprintf(path, "/sys/bus/spi/devices/spi0.0/iio:device%d/in_voltage1_raw", i); */
+	/* 		fd = open(path, O_RDONLY); */
+	/* 		if (fd > 0) */
+	/* 			break; */
+	/* 	} */
 
-	if (fd == -1) {
-		std::cout << "Couldn't access button interface" << std::endl;
-		return -1;
-	}
+	/* 	if (fd == -1) { */
+	/* 		std::cout << "Couldn't access button interface" << std::endl; */
+	/* 		return -1; */
+	/* 	} */
 
 
-	if (buf == NULL)
-		perror("calloc");
+	/* 	if (buf == NULL) */
+	/* 		perror("calloc"); */
 
-	while (len != 0 && (ret = read(fd, buf, len)) != 0) {
-		if (ret == -1) {
-			if (errno == EINTR)
-				continue;
-			perror("read");
-			break;
-		}
+	/* 	while (len != 0 && (ret = read(fd, buf, len)) != 0) { */
+	/* 		if (ret == -1) { */
+	/* 			if (errno == EINTR) */
+	/* 				continue; */
+	/* 			perror("read"); */
+	/* 			break; */
+	/* 		} */
 
-		len -= ret;
-		buf += ret;
-	}
+	/* 		len -= ret; */
+	/* 		buf += ret; */
+	/* 	} */
 
-	if (close(fd) == -1)
-		perror("close");
+	/* 	if (close(fd) == -1) */
+	/* 		perror("close"); */
 
-	voltage = std::string(p2buf);
+	/* 	voltage = std::string(p2buf); */
 
-	if (p2buf)
-		free(p2buf);
+	/* 	if (p2buf) */
+	/* 		free(p2buf); */
 
+	button_handle >> voltage;
 	// std::cout << voltage;
 
 	return stoi(voltage);
@@ -300,10 +298,8 @@ unsigned int getButton()
 
 void checkButton()
 {
-
-
 	while (getButton() < 100) {
-		controllight_control.setEnabled(sensor_is_reading);
+		controllight_control.setEnabled(pulsesensor.sensor_is_reading);
 		// std::cout << "sensor_is_reading = " << sensor_is_reading << std::endl;
 		usleep(1000);
 	}

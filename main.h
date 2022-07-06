@@ -17,10 +17,8 @@
 #include <sstream>
 #include <string>
 #include <thread>
+#include <unistd.h>
 #include <vector>
-
-
-std::vector<Sensor> createSensorObjects();
 
 Updater tempUpdater, bpmUpdater, gsrUpdater, spo2Updater;
 
@@ -38,12 +36,15 @@ DS1820* p2ds1820;
 QTimeLine* timeline;
 QMediaPlayer* player;
 
+DS1820 ds1820{};
+GSRSensor gsrsensor{};
+Pulsesensor pulsesensor{};
+
 void updateValues();
-void poundHeart();
+void poundHeart(int bpm);
 void fadeHeart(unsigned int times);
 void thermometerThread();
 unsigned int calcThermometerHeight();
 
 bool sleeping = true;
-
 

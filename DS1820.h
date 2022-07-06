@@ -17,7 +17,6 @@
 
 // #define DEBUG 1
 
-#include "Sensor.h"
 
 #include <algorithm>
 #include <filesystem>
@@ -27,7 +26,7 @@
 #include <cmath>
 #include <string>
 
-class DS1820 : Sensor {
+class DS1820 {
     std::string raw_temperature;
 
 public:
