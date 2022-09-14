@@ -62,7 +62,7 @@
   "configurations": {
     "remote launch": {
       "adapter": "cpptools-remote",
-      "remote-cmdLine": [ "/usr/bin/healthpi", "" ],
+      "remote-cmdLine": [ "/usr/bin/HealthPi", "" ],
       "remote-request": "launch",
       "configuration": {
         "request": "launch",
