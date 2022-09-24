@@ -18,6 +18,8 @@ int main(int argc, char* argv[])
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
 
+    QFontDatabase::addApplicationFont(":/home/root/fonts/IBMPlexMono-Regular.ttf");
+
 	QGuiApplication app(argc, argv);
 
 	/* Hide the cursor */
@@ -57,7 +59,7 @@ int main(int argc, char* argv[])
 
 
 	player = new QMediaPlayer{};
-	player->setMedia(QUrl::fromLocalFile("/home/root/sounds/single-heartbeat2.wav"));
+    player->setMedia(QUrl::fromLocalFile("/home/root/sounds/single-heartbeat2.wav"));
 	player->setVolume(100);
 
     std::thread pulseThread(&Pulsesensor::read_bpm_thread, std::ref(pulsesensor));
@@ -109,7 +111,7 @@ void updateValues()
 
 		if (!timelinecntrl.enabled()) {
 
-			/* Initial values */
+            /* Initial values */
 
 			sleeping = true;
 			bpmUpdater.setText("0");
@@ -178,6 +180,8 @@ void updateValues()
 
 void poundHeart()
 {
+    btncntrl.setClicked(true);
+
 	std::cout << "Pound!\n";
 
     int bpm = pulsesensor.get_bpm();

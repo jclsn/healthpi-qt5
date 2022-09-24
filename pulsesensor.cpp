@@ -80,8 +80,6 @@ void Pulsesensor::get_pulse()
 					enableHeart();
 			}
 
-            std::cout << "sleeping = " << sleeping << std::endl;
-
 			if (!sleeping)
                 poundHeart();
 

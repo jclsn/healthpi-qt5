@@ -10,7 +10,7 @@
       },
       "launch": {
         "remote": {
-          "host": "healthpi64",
+          "host": "192.168.184.49",
           "account": "root",
           // or, alternatively "container": "${ContainerID}"
 
@@ -20,20 +20,20 @@
             // "--no-startup-with-shell",
             // "--disable-randomisation",
             "localhost:${port}",
-            "healthpi"
+            "HealthPi"
 		  ]
         }
       },
       "attach": {
         "remote": {
-          "host": "healthpi64",
+          "host": "192.168.184.49",
           "account": "root",
           // or, alternatively "container": "${ContainerID}"
 
           "pidCommand": [
              // e.g. "/path/to/secret/script/GetPIDForService", "${ServiceName}"
              // or...
-             "pgrep", "healthpi"
+             "pgrep", "HealthPi"
           ],
           "attachCommand": [
             "gdbserver", "--once",
@@ -54,15 +54,14 @@
           //   "-TRAP",
           //   "%PID%"
           // ]
-        },
-        "delay": "1000m" // optional
+        }
       }
     }
   },
   "configurations": {
     "remote launch": {
       "adapter": "cpptools-remote",
-      "remote-cmdLine": [ "/usr/bin/HealthPi", "" ],
+      "remote-cmdLine": [ "QT_QPA_PLATFORM=eglfs XDG_RUNTIME_DIR=/home/root /usr/bin/HealthPi", "" ],
       "remote-request": "launch",
       "configuration": {
         "request": "launch",
@@ -71,7 +70,9 @@
         "cwd": "${workspaceRoot}",
         "MIMode": "gdb",
 		"targetArchitecture": "arm64",
-        "miDebuggerServerAddress": "healthpi64:${port}"
+        "miDebuggerServerAddress": "192.168.184.49:${port}",
+		"stopAtEntry": true,
+		"miDebuggerPath": "/usr/bin/gdb-multiarch"
       }
     },
     "remote attach": {
@@ -84,7 +85,7 @@
         "cwd": "${workspaceRoot}",
         "MIMode": "gdb",
 		"targetArchitecture": "arm64",
-        "miDebuggerServerAddress": "healthpi64:${port}"
+        "miDebuggerServerAddress": "192.168.184.49:${port}"
       }
     }
   }

@@ -14,10 +14,10 @@ Window {
 
     Text {
         id: bpm
-        x: 102
+        x: 390
         y: 684
         color: "#ffffff"
-        text: qsTr("Pulse")
+        text: qsTr("Puls")
         font.pixelSize: 64
         font.family: "IBM Plex Mono"
     }
@@ -44,7 +44,7 @@ Window {
 
     Text {
         id: bpm_val
-        x: 349
+        x: 560
         y: 684
         color: "#ffffff"
         text: bpmUpdater.text
