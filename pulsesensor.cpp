@@ -1,65 +1,6 @@
 #include "pulsesensor.h"
 
-#include "Heartbeat.h"
-#include "debug.h"
-#include <ratio>
-
-/* VARIABLES USED TO DETERMINE SAMPLE JITTER & TIME OUT */
-
-volatile unsigned int event_counter, this_time, last_time, elapsed_time;
-volatile int jitter_sum, jitter;
-unsigned int timeout_start, data_request_start, m;
-
-/* DEFAULTS */
-
-const int default_peak = 550;
-const int default_trough = 550;
-const int default_threshold = 550;
-
-
-/* VARIABLES USED TO DETERMINE BPM */
-
-volatile unsigned int sample_counter;
-volatile bool first_beat = true;      // set these to avoid noise
-volatile bool second_beat = false;    // when we get the heartbeat back
-volatile int beat_counter = 0;
-volatile int pulse_signal;
-volatile int threshold_setting, last_beat_time, fade_level;
-volatile int threshold = default_threshold;    // SHOULD BE ADJUSTABLE ON COMMAND LINE
-volatile int peak = default_peak;              // set P default
-volatile int trough = default_trough;          // set T default
-volatile int qs = 0;
-volatile int rate[10];
-volatile int ibi = 600;                       // 600ms per beat = 100 Beats Per Minute (BPM) (inter-beat interval)
-volatile int ibi_threefifth = ibi * 3 / 5;    // 600ms per beat = 100 Beats Per Minute (BPM) (inter-beat interval)
-volatile bool pulse = false;                  // set to 1 while Signal > Threshold
-volatile int amp = 100;                       // beat amplitude 1/10 of input range.
-volatile int bpm = 0;
-volatile bool sensor_is_reading = false;    // set to 1 while Signal > Threshold
-
-
-std::chrono::time_point<std::chrono::high_resolution_clock> start{};
-std::chrono::time_point<std::chrono::high_resolution_clock> now{};
-std::chrono::microseconds duration{};
-
-/* FUNCTION PROTOTYPES */
-
-void get_pulse();
-void stopTimer(void);
-void init_pulsesensor_vars(void);
-void initJitterVariables(void);
-
-
-void clock_init() {
-	start = std::chrono::high_resolution_clock::now();
-}
-
-int get_bpm()
-{
-	return bpm;
-}
-
-int get_raw_signal()
+int Pulsesensor::get_raw_signal() const
 {
 	std::filesystem::path pulsesensor_path{"/sys/bus/spi/devices/spi0.0/iio:device0/in_voltage0_raw"};
 	std::ifstream pulsesensor_handle{pulsesensor_path};
@@ -78,36 +19,11 @@ int get_raw_signal()
 	return std::stoi(voltage);
 }
 
-void init_pulsesensor_vars(void)
-{
-	for (int i = 0; i < 10; ++i)
-		rate[i] = 0;
-
-	qs = 0;
-	bpm = 0;
-	ibi = 420;    // 420 per beat = 70 Beats Per Minute (BPM)
-	pulse = false;
-	sensor_is_reading = false;
-	sample_counter = 0;
-	last_beat_time = 0;
-	peak = default_peak;              // Peak at 1/2 the input range of 0..1023
-	trough = default_trough;          // Trough at 1/2 the input range.
-	threshold_setting = 550;          // Used to seed and reset the thresh variable
-	threshold = default_threshold;    // Threshold a little above the trough
-	amp = 100;                        // Beat amplitude 1/10 of input range.
-	first_beat = true;                // Looking for the first beat
-	second_beat = false;              // Not yet looking for the second beat in a row
-									  //
-    now = std::chrono::high_resolution_clock::now();
-	last_time = std::chrono::duration_cast<std::chrono::microseconds>(start - now).count();
-
-}
-
-void get_pulse()
+void Pulsesensor::get_pulse()
 {    // int sig_num){
 
 	/* this_time = micros();    // Time passed since the program has started */
-    now = std::chrono::high_resolution_clock::now();
+	now = std::chrono::high_resolution_clock::now();
 	this_time = std::chrono::duration_cast<std::chrono::microseconds>(start - now).count();
 
 	pulse_signal = get_raw_signal();    // Get the raw sensor data
@@ -164,8 +80,10 @@ void get_pulse()
 					enableHeart();
 			}
 
+            std::cout << "sleeping = " << sleeping << std::endl;
+
 			if (!sleeping)
-				poundHeart();
+                poundHeart();
 
 			if (second_beat) {                  // if this is the second beat, if secondBeat == TRUE
 				second_beat = false;            // Clear secondBeat flag
@@ -196,8 +114,9 @@ void get_pulse()
 			bpm = -5 + 60000 / runningTotal;    // How many beats can fit into a minute? that's BPM!
 			if (bpm < 0)
 				bpm = 0;
+
 			qs = 1;    // Set Quantified Self flag (we detected a beat)
-			// fadeLevel = MAX_FADE_LEVEL;             	// If we're fading, re-light that LED.
+			           // fadeLevel = MAX_FADE_LEVEL;             	// If we're fading, re-light that LED.
 		}
 	}
 
@@ -220,8 +139,8 @@ void get_pulse()
 		first_beat = true;                  // Set these to avoid noise
 		second_beat = false;                // When we get the heartbeat back
 		qs = 0;
-		bpm = 0;
-		ibi = 600;    // 600ms per beat = 100 Beats Per Minute (BPM)
+        bpm = 0;
+        ibi = 600;    // 600ms per beat = 100 Beats Per Minute (BPM)
 		pulse = false;
 		amp = 100;    // Beat amplitude 1/10 of input range.
 
@@ -236,13 +155,19 @@ void get_pulse()
 #endif
 }
 
-int read_bpm_thread()
+int Pulsesensor::read_bpm_thread()
 {
-	while (1) {
+
+    while (1) {
 		std::this_thread::sleep_for(std::chrono::microseconds{1800});
 		get_pulse();
 	}
 
 	return 0;
+}
+
+int Pulsesensor::get_bpm() const
+{
+    return bpm;
 }
 

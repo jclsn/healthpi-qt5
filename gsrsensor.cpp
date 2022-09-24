@@ -1,4 +1,5 @@
 #include "gsrsensor.h"
+
 #include <string>
 
 GSRSensor::GSRSensor() {}
@@ -11,7 +12,7 @@ void GSRSensor::read_sensor()
 
 	std::string sensorValueString{};
 
-	gsr_sensor_handle >>  sensorValueString;
+	gsr_sensor_handle >> sensorValueString;
 
 	sensor_value = stoi(sensorValueString) * 1.5;
 
@@ -20,7 +21,8 @@ void GSRSensor::read_sensor()
 	voltage = (sensor_value * 5. / 1024.0);
 }
 
-void GSRSensor::update_sample_list(){
+void GSRSensor::update_sample_list()
+{
 
 	/* Place new voltage value in the array */
 	read_sensor();
@@ -53,7 +55,9 @@ std::string GSRSensor::get_avg_voltage_string()
 		}
 	}
 
+#ifdef DEBUG_GSR_SENSOR
 	std::cout << voltage_string << std::endl;
+#endif
 
 	return voltage_string;
 }

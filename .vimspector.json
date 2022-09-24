@@ -1,0 +1,91 @@
+{
+  "adapters": {
+    "cpptools-remote": {
+      "command": [
+        "${gadgetDir}/vscode-cpptools/debugAdapters/bin/OpenDebugAD7"
+      ],
+      "name": "cppdbg",
+      "configuration": {
+        "type": "cppdbg"
+      },
+      "launch": {
+        "remote": {
+          "host": "healthpi64",
+          "account": "root",
+          // or, alternatively "container": "${ContainerID}"
+
+          "runCommand": [
+            "gdbserver",
+            "--once",
+            // "--no-startup-with-shell",
+            // "--disable-randomisation",
+            "localhost:${port}",
+            "healthpi"
+		  ]
+        }
+      },
+      "attach": {
+        "remote": {
+          "host": "healthpi64",
+          "account": "root",
+          // or, alternatively "container": "${ContainerID}"
+
+          "pidCommand": [
+             // e.g. "/path/to/secret/script/GetPIDForService", "${ServiceName}"
+             // or...
+             "pgrep", "healthpi"
+          ],
+          "attachCommand": [
+            "gdbserver", "--once",
+            "--attach",
+            "localhost:${port}",
+            "%PID%"
+          ]
+          //
+          // If your application is started by a wrapper script, then you might
+          // need the following. GDB can't pause an application because it only
+          // sends the signal to the process group leader. Or something.
+          // Basically, if you find that everything just hangs and the
+          // application never attaches, try using the following to manually
+          // force the trap signal.
+          //
+          // "initCompleteCommand": [
+          //   "kill",
+          //   "-TRAP",
+          //   "%PID%"
+          // ]
+        },
+        "delay": "1000m" // optional
+      }
+    }
+  },
+  "configurations": {
+    "remote launch": {
+      "adapter": "cpptools-remote",
+      "remote-cmdLine": [ "/usr/bin/HealthPi", "" ],
+      "remote-request": "launch",
+      "configuration": {
+        "request": "launch",
+
+        "program": "${workspaceRoot}/HealthPi",
+        "cwd": "${workspaceRoot}",
+        "MIMode": "gdb",
+		"targetArchitecture": "arm64",
+        "miDebuggerServerAddress": "healthpi64:${port}"
+      }
+    },
+    "remote attach": {
+      "adapter": "cpptools-remote",
+      "remote-request": "attach",
+      "configuration": {
+        "request": "launch",
+
+        "program": "${workspaceRoot}/HealthPi",
+        "cwd": "${workspaceRoot}",
+        "MIMode": "gdb",
+		"targetArchitecture": "arm64",
+        "miDebuggerServerAddress": "healthpi64:${port}"
+      }
+    }
+  }
+}
